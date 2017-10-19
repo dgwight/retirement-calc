@@ -1,13 +1,20 @@
 # 307
 Section 3 Team 7
 
-## Usage
+## Setup
 
 Install `yarn` for macOS
 ```
 brew install yarn
 ```
 https://yarnpkg.com/lang/en/docs/install/
+
+Run yarn
+```
+yarn
+```
+
+## Running
 
 Run locally:
 ```
