@@ -1,6 +1,35 @@
 # 307
-section 3 team 7
+Section 3 Team 7
 
+## Setup
+
+Install `yarn` for macOS
+```
+brew install yarn
+```
+https://yarnpkg.com/lang/en/docs/install/
+
+Run yarn
+```
+yarn
+```
+
+## Running
+
+Run locally:
+```
+gulp serve
+```
+
+Build production version:
+```
+gulp
+```
+
+Run production version:
+```
+gulp serve:prod
+```
 
 ## Useful Links:
 * [Retirement Guide - 44 Page Comprehensive PDF](http://www.mass.gov/treasury/docs/retirement/retguide2015.pdf)
