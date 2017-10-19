@@ -3,12 +3,11 @@ Section 3 Team 7
 
 ## Usage
 
-Install `yarn`:
-macOS
+Install `yarn` for macOS
 ```
 brew install yarn
 ```
-(https://yarnpkg.com/lang/en/docs/install/)
+https://yarnpkg.com/lang/en/docs/install/
 
 Run locally:
 ```
