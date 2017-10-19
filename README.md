@@ -31,6 +31,11 @@ Run production version:
 gulp serve:prod
 ```
 
+Run unit tests:
+```
+gulp test
+```
+
 ## Useful Links:
 * [Retirement Guide - 44 Page Comprehensive PDF](http://www.mass.gov/treasury/docs/retirement/retguide2015.pdf)
 * [Original Calculator (pre 4/2/2012)](http://www.mass.gov/treasury/retirement/retirementestimator/estimate.html)
