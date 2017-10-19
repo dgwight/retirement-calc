@@ -17,12 +17,20 @@ var yeoman = {
 var paths = {
   scripts: [yeoman.app + '/scripts/**/*.js'],
   styles: [yeoman.app + '/styles/**/*.scss'],
-  test: ['test/spec/**/*.js'],
+  test: [
+    'test/spec/**/*.js',
+    'node_modules/angular/angular.js',
+    'node_modules/angular-mocks/angular-mocks.js',
+    'node_modules/angular-route/angular-route.js'
+    ],
   testRequire: [
+    'node_modules/angular/angular.js',
+    'node_modules/angular-mocks/angular-mocks.js',
+    'node_modules/angular-route/angular-route.js',
     'test/mock/**/*.js',
     'test/spec/**/*.js'
   ],
-  karma: 'karma.conf.js',
+  karma: 'test/karma.conf.js',
   views: {
     main: yeoman.app + '/index.html',
     files: [yeoman.app + '/views/**/*.html']
