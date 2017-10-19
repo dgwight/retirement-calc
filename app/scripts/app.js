@@ -27,6 +27,11 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
+      .when('/calc', {
+        templateUrl: 'views/calc.html',
+        controller: 'CalcCtrl',
+        controllerAs: 'calc'
+      })
       .otherwise({
         redirectTo: '/'
       });
