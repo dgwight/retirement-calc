@@ -16,6 +16,8 @@ angular.module('testApp')
       'Karma'
     ];
 
+    scope.date = Date.now();
+
     scope.progress = 0;
     scope.step = "step1";
 
@@ -25,6 +27,5 @@ angular.module('testApp')
         scope.progress += 34;
     }
 
-      var picker = new Pikaday({ field: $('#datepicker')[0] });
 
   }]);

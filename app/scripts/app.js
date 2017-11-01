@@ -10,10 +10,8 @@
  */
 angular
   .module('testApp', [
-    // 'ngResource',
-    'ngRoute',
-    // 'ngSanitize',
-    // 'ngTouch'
+        'ngRoute',
+        '720kb.datepicker'
   ])
   .config(function ($routeProvider) {
     $routeProvider
