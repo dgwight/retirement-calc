@@ -15,13 +15,13 @@
 
     <div ng-switch on="step" class="animate-switch-container">
         <div class="animate-switch" ng-switch-when="step1">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Name" required="required">
-            </div>
-            <div class="form-group">
-                <button ng-click="showStep('step2')" class="btn btn-success btn-lg btn-block">Next</button>
-            </div>            
+          <div class="form-group">
+              <label for="datepicker">Date of Birth</label>
+              <input type="text" id="datepicker">
+          </div>
+          <div class="form-group">
+              <button ng-click="showStep('step2')" class="btn btn-success btn-lg btn-block">Next</button>
+          </div>
         </div>
         <div class="animate-switch" ng-switch-when="step2">
             <div class="form-group">
@@ -30,22 +30,22 @@
             </div>
             <div class="form-group">
                 <button ng-click="showStep('step3')" class="btn btn-success btn-lg btn-block">Next</button>
-            </div>  
+            </div>
         </div>
         <div class="animate-switch" ng-switch-when="step3">
-            <div class="form-group">
-                <label for="dob">Date of Birth</label>
-                <input type="text" class="form-control" id="dob" placeholder="Date of Birth" required="required">
-            </div>
-            <div class="form-group">
-                <button ng-click="showStep('step4')" class="btn btn-success btn-lg btn-block">Next</button>
-            </div>
-        </div>        
+          <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" id="name" placeholder="Name" required="required">
+          </div>
+          <div class="form-group">
+              <button ng-click="showStep('step4')" class="btn btn-success btn-lg btn-block">Next</button>
+          </div>
+        </div>
         <div class="animate-switch" ng-switch-when="step4">
             <div class="alert alert-success" role="alert">
                 <h4 class="alert-heading">YAY YOURE DONE!!!!!</h4>
                 <p>Aww yeah, you successfully completed the pension calculator.</p>
-            </div>            
+            </div>
         </div>
     </div>
 

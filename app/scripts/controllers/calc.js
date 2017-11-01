@@ -25,4 +25,6 @@ angular.module('testApp')
         scope.progress += 34;
     }
 
+      var picker = new Pikaday({ field: $('#datepicker')[0] });
+
   }]);
