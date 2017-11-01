@@ -6,7 +6,7 @@
         .factory("CalculatorService", function () {
 
             return {
-                "open": open
+                "getAnnualPension": getAnnualPension
             };
 
 
@@ -21,7 +21,7 @@
             //     60 = 3%
             //     70 = 5%
             //     If option C, reduce pension amount using above chart.
-        //
+
 
             function getWeightedRetirementAge(dateOfBirth, dateOfRetirement, group) {
                 const age = dateOfBirth - dateOfRetirement;
@@ -50,23 +50,17 @@
             }
 
             function getMaxAnnualPension (highestAverageSalary, years, dateOfBirth, dateOfRetirement, group, isVeteran) {
-
-                //TODO: veteran adds $15 per year up to 300
-
                 const ageFactor = getAgeFactor(dateOfBirth, dateOfRetirement, group);
                 const baseMaxAnnualPension = ageFactor * years * highestAverageSalary;
                 if (isVeteran) {
-                    return baseMaxAnnualPension + years * 15
+                    return years > 20 ? baseMaxAnnualPension + years * 15 : baseMaxAnnualPension + 300;
                 } else {
-                    return baseMaxAnnualPension
+                    return baseMaxAnnualPension;
                 }
-
-                return getAgeFactor(dateOfBirth, dateOfRetirement, group) ;
             }
             
             function getAnnualPension(maxAnnualPension, option) {
                 
             }
-
         });
 })();
