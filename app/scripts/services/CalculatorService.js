@@ -4,7 +4,33 @@
     angular
         .module("testApp")
         .factory("CalculatorService", function () {
+            /**
+             * Represents an enumeration for all retirement plan options.
+             */
+            class RetirementOption {
+                constructor(name) {
+                    this.name = name;
+                }
+
+                toString() {
+                    return `RetirementOption.${this.name}`;
+                }
+            }
+
+            /**
+             * Represents an enumeration for all retirement plan options.
+             */
+            class EmployeeGroup {
+                constructor(name) {
+                    this.name = name;
+                }
+
+                toString() {
+                    return `EmployeeGroup.${this.name}`;
+                }
+            }
             initEnums();
+
             return {
                 "getAnnualPension": getAnnualPension
             };
@@ -65,32 +91,6 @@
                     return years > 20 ? baseMaxAnnualPension + years * 15 : baseMaxAnnualPension + 300;
                 } else {
                     return baseMaxAnnualPension;
-                }
-            }
-            
-            /**
-             * Represents an enumeration for all retirement plan options.
-             */
-            class RetirementOption {
-                constructor(name) {
-                    this.name = name;
-                }
-
-                toString() {
-                    return `RetirementOption.${this.name}`;
-                }
-            }
-
-            /**
-             * Represents an enumeration for all retirement plan options.
-             */
-            class EmployeeGroup {
-                constructor(name) {
-                    this.name = name;
-                }
-
-                toString() {
-                    return `EmployeeGroup.${this.name}`;
                 }
             }
 
@@ -191,7 +191,10 @@
              * @param hasBene              boolean, do you have a benefactor?
              * @param beneDoB              Date object, benefactor birthdate.
              * @param retireOption         String, what type of retirement plan
-             * @returns {*}
+             * @returns {*}                either:
+             *                             {"annualPension": number, "beneAnnualPension": number};
+             *                             or if beneAnnualPension does not apply:
+             *                             {"annualPension": number}
              */
             function getAnnualPension(highestAverageSalary, yearsWorked,
                                       dateOfBirth, dateOfStartEmployment, dateOfRetirement,
@@ -203,6 +206,8 @@
 
                 const optionEnum = convertOptionToEnum(retireOption);
                 const groupEnum = convertGroupToEnum(groupNum);
+
+                // TODO use a better way to calculate the age in years
                 const retireAge_Years = Math.round(
                     (dateOfRetirement.getTime() - dateOfBirth.getTime()) / (1000 * 3600 * 24 * 365));
 
@@ -216,10 +221,9 @@
                 
                 switch (optionEnum) {
                     case RetirementOption.A:
-                        return {"annualPension": maxAnnualPension, "beneAnnualPension": 0};
+                        return {"annualPension": maxAnnualPension};
                     case RetirementOption.B:
-                        return {"annualPension": calcOptionB(maxAnnualPension, retireAge_Years),
-                                "beneAnnualPension": 0};
+                        return {"annualPension": calcOptionB(maxAnnualPension, retireAge_Years)};
                     case RetirementOption.C:
                         if (!hasBene) {
                             throw "Option C requires a benefactor!"
