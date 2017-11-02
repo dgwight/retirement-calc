@@ -196,26 +196,36 @@
              * Exposed function for calculating the annual pension.
              *
              * @param highestAverageSalary  Float, highest average salary in dollars
+             *
              * @param birthUnix             long, unix timestamp in seconds
              * @param startUnix             long, unix timestamp in seconds
              * @param retireUnix            long, unix timestamp in seconds
+             *
              * @param groupNum              String, this employee's group number
              * @param isVeteran             boolean, is employee a veteran?
-             * @param hasBene               boolean, do you have a benefactor?
-             * @param beneDoB               Date object, benefactor birthdate.
+             *
+             * @param beneBirthUnix               long object, benefactor birth date.
+             *
              * @param retireOption          String, what type of retirement plan
+             *
              * @returns {*}                 either:
              *                              {"annualPension": number, "beneAnnualPension": number};
              *                              or if beneAnnualPension does not apply:
              *                              {"annualPension": number}
+             * @throws                      if option C is selected and beneBirthUnix was None.
+             * @throws                      the argument length does not match.
+             * @throws                      the option or group number does not match any enum defined
              */
             function getAnnualPension(highestAverageSalary,
                                       birthUnix, startUnix, retireUnix,
                                       groupNum, isVeteran,
-                                      hasBene, beneDoB,
+                                      beneBirthUnix,
                                       retireOption) {
 
                 // TODO more validation
+                if (arguments.length !== getAnnualPension.length) {
+                    throw "Argument length does not match!";
+                }
                 const optionEnum = convertOptionToEnum(retireOption);
                 const groupEnum = convertGroupToEnum(groupNum);
 
@@ -236,7 +246,7 @@
                     case RetirementOption.B:
                         return {"annualPension": calcOptionB(maxAnnualPension, retireAge_Years)};
                     case RetirementOption.C:
-                        if (!hasBene) {
+                        if (!beneBirthUnix) {
                             throw "Option C requires a benefactor!"
                         } else {
                             // TODO Implement this: need to clarify exactly how to calculate this!
