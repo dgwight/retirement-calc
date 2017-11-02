@@ -72,10 +72,12 @@
                 }
             }
 
-            RetirementOption.A = RetirementOption("A");
-            RetirementOption.B = RetirementOption("B");
-            RetirementOption.C = RetirementOption("C");
-
+            /**
+             * Used for calculating pension for Option B
+             * @param maxPension
+             * @param retireAge_Years
+             * @returns {number}
+             */
             function calculateForOptionB(maxPension, retireAge_Years) {
                 let percentOff;
                 // TODO ask if this logic is what the client means.
@@ -83,7 +85,7 @@
                     percentOff = 0;
                 } else if (50 <= retireAge_Years && retireAge_Years < 60) {
                     percentOff = 0.01;
-                } else if (60 <= ageYear && ageYear < 70) {
+                } else if (60 <= retireAge_Years && retireAge_Years < 70) {
                     percentOff = 0.03;
                 } else {
                     percentOff = 0.05;
@@ -93,43 +95,53 @@
 
             /**
              * Exposed function for calculating the annual pension.
-             * 
-             * highestAverageSalary: Float, highest average salary in dollars
-             * yearsWorked: Integer, years worked before retirement
-             * dateOfBirth: Date object, birth date
-             * dateOfRetirement: Date object, retirement date
-             * group: String, this employee's group
-             * isVeteran: boolean, is employee a veteran?
-             * 
-             * hasBene: boolean, do you have a benefactor?
-             * beneDoB: Date object, benefactor birthdate.
              *
-             * option: RetirementOption object, what type of retirement plan
+             * @param highestAverageSalary Float, highest average salary in dollars
+             * @param yearsWorked Integer, years worked before retirement
+             * @param dateOfBirth Date object, birth date
+             * @param dateOfRetirement Date object, retirement date
+             * @param group String, this employee's group
+             * @param isVeteran boolean, is employee a veteran?
+             * @param hasBene boolean, do you have a benefactor?
+             * @param beneDoB Date object, benefactor birthdate.
+             * @param option String, what type of retirement plan
+             * @returns {*}
              */
-            function getAnnualPension(highestAverageSalary, yearsWorked, dateOfBirth, dateOfRetirement, group, isVeteran,
-                                        hasBene, beneDoB,
-                                        option) {
+            function getAnnualPension(highestAverageSalary, yearsWorked,
+                                      dateOfBirth, dateOfRetirement,
+                                      group, isVeteran,
+                                      hasBene, beneDoB,
+                                      option) {
+
+                RetirementOption.A = new RetirementOption("A");
+                RetirementOption.B = new RetirementOption("B");
+                RetirementOption.C = new RetirementOption("C");
+
                 // TODO more validation.
-                // TODO Check if age is less than 36, if so throw error.
-                
-                
-                // Check if years is less than 10, if so return 0;
-                if (yearsWorked === 0) {
+                const retireAge_Years = Math.round(
+                    (dateOfRetirement.getTime() - dateOfBirth.getTime()) / (1000 * 3600 * 24 * 365));
+
+                // Check if retirement age is okay
+                if (retireAge_Years < 36) {
                     return 0;
                 }
 
-                const maxAnnualPension = getMaxAnnualPension(highestAverageSalary, yearsWorked, dateOfBirth, dateOfRetirement, group, isVeteran);
+                // Check if years worked is okay
+                if (yearsWorked <= 10) {
+                    return 0;
+                }
+
+                const maxAnnualPension = getMaxAnnualPension(highestAverageSalary, yearsWorked,
+                                                                dateOfBirth, dateOfRetirement, group, isVeteran);
                 
-                witch (option) {
-                    case RetirementOption.A:
-                        return maxAnnualPension;
-                    case RetirementOption.B:
-                        // TODO calculate year component in age
-                        let retireAge_Years = dateOfRetirement - dateOfBirth;
-                        return calculateForOptionB(maxAnnualPension, retireAge_Years);
-                    case RetirementOption.C:
-                        // TODO clarify algorithm.
-                        return;
+                switch (option) {
+                    case RetirementOption.A.name:
+                        return {"annualPension": maxAnnualPension, "beneAnnualPension": 0};
+                    case RetirementOption.B.name:
+                        return {"annualPension": calculateForOptionB(maxAnnualPension, retireAge_Years), "beneAnnualPension": 0};
+                    case RetirementOption.C.name:
+                        // TODO Implement this: need to clarify calculation method.
+                        return {"annualPension": 0, "beneAnnualPension": 0};
                 }
             }
         });
