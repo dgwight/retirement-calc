@@ -15,40 +15,84 @@
 
     <div ng-switch on="step" class="animate-switch-container">
         <div class="animate-switch" ng-switch-when="step1">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Name" required="required">
-            </div>
-            <div class="form-group">
-                <button ng-click="showStep('step2')" class="btn btn-success btn-lg btn-block">Next</button>
-            </div>            
+          <div class="form-group">
+              <label for="birthdate">Date of Birth</label>
+              <datepicker date-format="MM/dd/yyyy" date-set-hidden="true">
+                  <input id="birthdate" ng-model="date" type="text" placeholder="Choose your birthdate"/>
+              </datepicker>
+          </div>
+          <div class="form-group">
+              <button ng-click="showStep('step2')" class="btn btn-success btn-lg btn-block">Next</button>
+          </div>
         </div>
         <div class="animate-switch" ng-switch-when="step2">
             <div class="form-group">
-                <label for="email">email</label>
-                <input type="text" class="form-control" id="email" placeholder="email address" required="required">
+                <label for="group">Your Group</label>
+                <select class="form-control" id="group">
+                  <option>Group 1</option>
+                  <option>Group 2</option>
+                  <option>Group 3</option>
+                  <option>Group 4</option>
+                </select>
             </div>
+
             <div class="form-group">
+              <button ng-click="showStep('step1')" class="btn btn-danger btn-lg btn-block">Back</button>
                 <button ng-click="showStep('step3')" class="btn btn-success btn-lg btn-block">Next</button>
-            </div>  
+            </div>
         </div>
         <div class="animate-switch" ng-switch-when="step3">
-            <div class="form-group">
-                <label for="dob">Date of Birth</label>
-                <input type="text" class="form-control" id="dob" placeholder="Date of Birth" required="required">
-            </div>
-            <div class="form-group">
-                <button ng-click="showStep('step4')" class="btn btn-success btn-lg btn-block">Next</button>
-            </div>
-        </div>        
+          <div class="form-group">
+              <label for="startDate">Start Date</label>
+              <datepicker date-format="MM/dd/yyyy" date-set-hidden="true">
+                  <input id="startDate" ng-model="date" type="text" placeholder="Choose your start date:"/>
+              </datepicker>
+          </div>
+          <div class="form-group">
+            <button ng-click="showStep('step2')" class="btn btn-danger btn-lg btn-block">Back</button>
+              <button ng-click="showStep('step4')" class="btn btn-success btn-lg btn-block">Next</button>
+          </div>
+        </div>
         <div class="animate-switch" ng-switch-when="step4">
+          <div class="form-group">
+              <label for="endDate">End Date</label>
+              <datepicker date-format="MM/dd/yyyy" date-set-hidden="true">
+                  <input id="endDate" ng-model="date" type="text" placeholder="Choose your end date:"/>
+              </datepicker>
+          </div>
+          <div class="form-group">
+            <button ng-click="showStep('step3')" class="btn btn-danger btn-lg btn-block">Back</button>
+              <button ng-click="showStep('step5')" class="btn btn-success btn-lg btn-block">Next</button>
+          </div>
+        </div>
+        <div class="animate-switch" ng-switch-when="step5">
+          <div class="form-group">
+              <label for="highestPay">Highest Pay in Period (This text needs to change depending on start date)</label>
+                <input id="highestPay" type="text" placeholder="Highest pay:"/>
+          </div>
+          <div class="form-group">
+            <button ng-click="showStep('step4')" class="btn btn-danger btn-lg btn-block">Back</button>
+              <button ng-click="showStep('step6')" class="btn btn-success btn-lg btn-block">Next</button>
+          </div>
+        </div>
+        <div class="animate-switch" ng-switch-when="step6">
+          <div class="form-group">
+            <h3>Veteran Status</h3>
+                  <input id="veteran" type="radio" name="veteran" value="veteran"/>Veteran</br>
+                  <input id="nonVeteran" type="radio" name="veteran" value="nonVeteran"/>Non-Veteran</br>
+                <label for="veteranYears">Number of Years as Veteran</label>
+                <input type="text" id="veteranYears">
+          </div>
+          <div class="form-group">
+            <button ng-click="showStep('step5')" class="btn btn-danger btn-lg btn-block">Back</button>
+              <button ng-click="showStep('step7')" class="btn btn-success btn-lg btn-block">Next</button>
+          </div>
+        </div>
+        <div class="animate-switch" ng-switch-when="step7">
             <div class="alert alert-success" role="alert">
                 <h4 class="alert-heading">YAY YOURE DONE!!!!!</h4>
                 <p>Aww yeah, you successfully completed the pension calculator.</p>
-            </div>            
+            </div>
         </div>
     </div>
-
-
-
 </form>
