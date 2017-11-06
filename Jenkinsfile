@@ -8,7 +8,7 @@ node {
 
     stage('Setup') {
       echo '[Setup] - stage >>started<<'
-      sh sudo apt-get update && sudo apt-get install yarn
+      sh 'sudo apt-get update && sudo apt-get install yarn'
       echo '[Setup] - stage >>finished<<'
     }
 
