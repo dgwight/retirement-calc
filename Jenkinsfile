@@ -5,7 +5,7 @@ node('node') {
 
   currentBuild.result = "SUCCESS"
 
-  # checkout valid branch
+  // checkout valid branch
   try {
 
     stage('Checkout'){
