@@ -1,7 +1,7 @@
 #!groovy
 
 
-node('node') {
+node('staging') {
 
   currentBuild.result = "SUCCESS"
 
