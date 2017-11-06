@@ -1,5 +1,13 @@
 node {
     checkout scm
-    /* .. snip .. */
-    echo 'do you see this?'
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'starting build pipeline'
+                //sh 'make'
+                //archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+            }
+        }
+    }
 }
