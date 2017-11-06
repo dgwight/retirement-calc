@@ -8,6 +8,7 @@ node {
         image 'yarnpkg/node-yarn'
         args '--privileged -v /opt/docker-caches/.composer:/home/jenkins/.composer -v /opt/docker-caches/.npm:/home/jenkins/.npm -v /opt/docker-caches/.cache/yarn:/home/jenkins/.cache/yarn -v /opt/docker-caches/supercache:/home/jenkins/supercache'
       }
+    }
 
     stage('Checkout'){
       checkout scm
