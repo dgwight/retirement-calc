@@ -2,7 +2,7 @@ node {
   //checkout scm
 
   try {
-
+    pipeline {
     agent {
       docker {
         image 'yarnpkg/node-yarn'
@@ -30,7 +30,7 @@ node {
       echo '[Test] - stage >>started<<'
       echo '[Test] - stage >>finished<<'
     }
-
+  }
   } catch (err) {
     echo '[failure] - build failed'
     currentBuild.result = "FAILURE"
