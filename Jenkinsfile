@@ -1,13 +1,13 @@
 node {
-    checkout scm
+  //checkout scm
 
-    stages {
-        stage('Build') {
-            steps {
-                echo 'starting build pipeline'
-                //sh 'make'
-                //archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-            }
-        }
+  try {
+    stage('Checkout'){
+      checkout scm
     }
+
+  } catch (err) {
+    currentBuild.result = "FAILURE"
+    throw err
+  }
 }
