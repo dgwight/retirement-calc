@@ -1,5 +1,4 @@
 node {
-  //checkout scm
 
   try {
     // agent {
@@ -26,11 +25,18 @@ node {
 
     stage('Build') {
       echo '[Build] - stage >>started<<'
+      sh 'gulp'
       echo '[Build] - stage >>finished<<'
     }
 
     stage('Test') {
       echo '[Test] - stage >>started<<'
+      sh '''
+        gulp test
+        pid=$!
+        sleep 10
+        kill ${pid}
+        '''
       echo '[Test] - stage >>finished<<'
     }
   } catch (err) {
