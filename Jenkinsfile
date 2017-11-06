@@ -2,12 +2,15 @@ node {
   //checkout scm
 
   try {
-    pipeline {
+    // agent {
+    //   docker {
+    //     image 'yarnpkg/node-yarn'
+    //     args '--privileged -v /opt/docker-caches/.composer:/home/jenkins/.composer -v /opt/docker-caches/.npm:/home/jenkins/.npm -v /opt/docker-caches/.cache/yarn:/home/jenkins/.cache/yarn -v /opt/docker-caches/supercache:/home/jenkins/supercache'
+    //   }
+    // }
+
     agent {
-      docker {
-        image 'yarnpkg/node-yarn'
-        args '--privileged -v /opt/docker-caches/.composer:/home/jenkins/.composer -v /opt/docker-caches/.npm:/home/jenkins/.npm -v /opt/docker-caches/.cache/yarn:/home/jenkins/.cache/yarn -v /opt/docker-caches/supercache:/home/jenkins/supercache'
-      }
+        docker { image 'node:7-alpine' }
     }
 
     stage('Checkout'){
@@ -30,7 +33,6 @@ node {
       echo '[Test] - stage >>started<<'
       echo '[Test] - stage >>finished<<'
     }
-  }
   } catch (err) {
     echo '[failure] - build failed'
     currentBuild.result = "FAILURE"
