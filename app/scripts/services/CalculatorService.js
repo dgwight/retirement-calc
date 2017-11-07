@@ -18,7 +18,7 @@
             }
 
             /**
-             * Represents an enumeration for all retirement plan options.
+             * Represents an enumeration for all employee groups.
              */
             class EmployeeGroup {
                 constructor(name) {
@@ -112,6 +112,29 @@
                     percentOff = 0.03;
                 } else {
                     percentOff = 0.05;
+                }
+                return maxPension * (1.0 - percentOff);
+            }
+
+            /**
+             * Used for calculating pension for Option C
+             * @param maxPension
+             * @param retireAge_Years
+             * @returns {number}
+             */
+            function calcOptionC(maxPension, retireAge_Years, beneficiaryAge_Years) {
+                let percentOff;
+                // TODO ask if this logic is what the client means.
+                if (65 <= retireAge_Years && beneficiaryAge_Years <= 55) {
+                    percentOff = 0.06;
+                } else if (65 <= retireAge_Years && beneficiaryAge_Years <= 65) {
+                    percentOff = 0.16;
+                } else if (70 <= retireAge_Years && beneficiaryAge_Years <= 65) {
+                    percentOff = 0.11;
+                } else if (70 <= retireAge_Years && beneficiaryAge_Years <= 70) {
+                    percentOff = 0.17;
+                } else {
+                    percentOff = 0.14;
                 }
                 return maxPension * (1.0 - percentOff);
             }
@@ -239,7 +262,7 @@
 
                 const maxAnnualPension = getMaxAnnualPension(highestAverageSalary, yearsWorked,
                                                                 birthUnix, retireUnix, groupNum, isVeteran);
-                
+
                 switch (optionEnum) {
                     case RetirementOption.A:
                         return {"annualPension": maxAnnualPension};
@@ -250,8 +273,8 @@
                             throw "Option C requires a benefactor!"
                         } else {
                             // TODO Implement this: need to clarify exactly how to calculate this!
+                            return {"annualPension": calcOptionC(maxAnnualPension, retireAge_Years, calcYearsBetween(beneBirthUnix, retireUnix);)};
                         }
-                        throw "Option C is not yet implemented!";
                 }
             }
         });
