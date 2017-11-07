@@ -1,98 +1,153 @@
-<div class="page-header">
-    <h1>Estimate Your Pension! </h1>
-    <p>Complete the steps below:</p>
+<div id="calc-header" class="ma__page-header__content">
+    <h1 class="ma__page-header__title">MA State Pension Estimator</h1>
+    <section id="calc-description" class="ma__rich-text">
+        <p>This pension calculator will give members of the Massachusetts Employees' State Retirement System in groups 1, 2 or 4 an approximation of their retirement benefits.</p>
+    </section>
 </div>
 
-<form>
-    <div class="progress">
-        <div class="progress-bar"
-             role="progressbar"
-             style="width: {{progress}}%"
-             aria-valuenow="{{progress}}"
-             aria-valuemin="0"
-             aria-valuemax="100"></div>
-    </div>
+<div class="progress">
+    <div class="progress-bar"
+         role="progressbar"
+         style="width: {{progress}}%"
+         aria-valuenow="{{progress}}"
+         aria-valuemin="0"
+         aria-valuemax="100"></div>
+</div>
 
-    <div ng-switch on="step" class="animate-switch-container">
+<form id="step-form" class="ma__form-page" name="mainForm">
+    <h2 id="step-title" class="ma__comp-heading">{{stepTitle}}</h2>
+
+    <div ng-switch on="step.alias" class="animate-switch-container">
+        <div class="animate-switch" ng-switch-when="agree">
+            <div class="ma__form-page">
+                <h3 class="ma__page-header__sub-title"></h3>
+                <p><em><strong>Please Read and Agree Before Continuing</strong></em></p>
+                <p>
+                    I understand that the information and/or calculations displayed on this site do not necessarily reflect the actual amount of my retirement allowance. The results provided by this calculator are approximations and should not be considered as the final determination of my retirement benefit. They should not be relied upon for planning purposes.
+                </p>
+                <fieldset>
+
+                <button class="ma__button ma__button--small"
+                        ng-click="forward()">Agree and Proceed</button>
+                </fieldset>
+            </div>
+        </div>
         <div class="animate-switch" ng-switch-when="step1">
-          <div class="form-group">
-              <label for="birthdate">Date of Birth</label>
-              <datepicker date-format="MM/dd/yyyy" date-set-hidden="true">
-                  <input id="birthdate" ng-model="date" type="text" placeholder="Choose your birthdate"/>
-              </datepicker>
-          </div>
-          <div class="form-group">
-              <button ng-click="showStep('step2')" class="btn btn-success btn-lg btn-block">Next</button>
-          </div>
+            <div class="ma__form-page">
+                <fieldset id="dob">
+                    <label for="dob-input" class="ma__label ma__label--required">Date of Birth</label>
+                    <div class="ma__error-msg" ng-show="showError">You fucked up.</div>
+                    <datepicker date-month-title="selected year"
+                                date-format="MMMM d, y"
+                                date-set-hidden="true">
+                        <input id="dob-input"
+                               name="dob-input"
+                               readonly
+                               class="ma__input-date"
+                               ng-model="form.birthDate"
+                               placeholder="Choose a date..."
+                               type="text" />
+                    </datepicker>
+                </fieldset>
+            </div>
         </div>
         <div class="animate-switch" ng-switch-when="step2">
-            <div class="form-group">
-                <label for="group">Your Group</label>
-                <select class="form-control" id="group">
-                  <option>Group 1</option>
-                  <option>Group 2</option>
-                  <option>Group 3</option>
-                  <option>Group 4</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-              <button ng-click="showStep('step1')" class="btn btn-danger btn-lg btn-block">Back</button>
-                <button ng-click="showStep('step3')" class="btn btn-success btn-lg btn-block">Next</button>
+            <div class="ma__form-page">
+                <fieldset>
+                    <label for="group">Group Number</label>
+                    <div class="ma__select-box__field">
+                        <select ng-model="form.groupNumber" class="ma__select-box__select" id="group">
+                            <option>Group 1</option>
+                            <option>Group 2</option>
+                            <option>Group 3</option>
+                            <option>Group 4</option>
+                        </select>
+                    </div>
+                </fieldset>
             </div>
         </div>
         <div class="animate-switch" ng-switch-when="step3">
-          <div class="form-group">
-              <label for="startDate">Start Date</label>
-              <datepicker date-format="MM/dd/yyyy" date-set-hidden="true">
-                  <input id="startDate" ng-model="date" type="text" placeholder="Choose your start date:"/>
-              </datepicker>
-          </div>
-          <div class="form-group">
-            <button ng-click="showStep('step2')" class="btn btn-danger btn-lg btn-block">Back</button>
-              <button ng-click="showStep('step4')" class="btn btn-success btn-lg btn-block">Next</button>
-          </div>
+            <div class="ma__form-page">
+                <fieldset>
+                    <label for="startDate" class="ma__label ma__label--required">Employment Start Date</label>
+                    <datepicker date-format="MMMM d, y" date-set-hidden="true">
+                        <input id="startDate" ng-model="date" type="text" placeholder="Choose your start date"/>
+                    </datepicker>
+                </fieldset>
+
+                <fieldset>
+                    <label for="endDate" class="ma__label ma__label--required">Employment End Date</label>
+                    <datepicker date-format="MMMM d, y" date-set-hidden="true">
+                        <input id="endDate" ng-model="date" type="text" placeholder="Choose your end date:"/>
+                    </datepicker>
+                    <div class="clear"></div>
+                    <label for="endDate" class="ma__helper-text">Your projected date of retirement.</label>
+                </fieldset>
+            </div>
         </div>
         <div class="animate-switch" ng-switch-when="step4">
-          <div class="form-group">
-              <label for="endDate">End Date</label>
-              <datepicker date-format="MM/dd/yyyy" date-set-hidden="true">
-                  <input id="endDate" ng-model="date" type="text" placeholder="Choose your end date:"/>
-              </datepicker>
-          </div>
-          <div class="form-group">
-            <button ng-click="showStep('step3')" class="btn btn-danger btn-lg btn-block">Back</button>
-              <button ng-click="showStep('step5')" class="btn btn-success btn-lg btn-block">Next</button>
-          </div>
+            <div class="ma__form-page">
+                <label for="highestPay">Highest Pay in Period (This text needs to change depending on start date)</label>
+                <input id="highestPay" type="text" placeholder="Highest pay:"/>
+            </div>
         </div>
         <div class="animate-switch" ng-switch-when="step5">
-          <div class="form-group">
-              <label for="highestPay">Highest Pay in Period (This text needs to change depending on start date)</label>
-                <input id="highestPay" type="text" placeholder="Highest pay:"/>
-          </div>
-          <div class="form-group">
-            <button ng-click="showStep('step4')" class="btn btn-danger btn-lg btn-block">Back</button>
-              <button ng-click="showStep('step6')" class="btn btn-success btn-lg btn-block">Next</button>
-          </div>
+            <div class="ma__form-page">
+                <fieldset>
+                    <label class="ma__label ma__label--required">Are you a military veteran?</label>
+
+                    <div class="ma__input-group__items ma__input-group__items--inline">
+                        <div class="ma__input-group__item">
+                        <span class="ma__input-radio">
+                            <input id="veteran" type="radio"
+                                   ng-model="form.isVeteran" ng-value="true" />
+                            <label for="veteran"><span>Yes</span></label>
+                            <span class="checkmark"></span>
+                        </span>
+                        </div>
+                        <div class="ma__input-group__item">
+                        <span class="ma__input-radio">
+                            <input id="nonVeteran" type="radio"
+                                   ng-model="form.isVeteran" ng-value="false" />
+                            <label for="nonVeteran"><span>No</span></label>
+                            <span class="checkmark"></span>
+                        </span>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset ng-show="form.isVeteran">
+                <label for="veteranYears" class="ma__label ma__label--required">How many years did you serve as a veteran?</label>
+                    <input type="number"
+                           min="0" max="100"
+                           id="veteranYears">
+                </fieldset>
+            </div>
         </div>
         <div class="animate-switch" ng-switch-when="step6">
-          <div class="form-group">
-            <h3>Veteran Status</h3>
-                  <input id="veteran" type="radio" name="veteran" value="veteran"/>Veteran</br>
-                  <input id="nonVeteran" type="radio" name="veteran" value="nonVeteran"/>Non-Veteran</br>
-                <label for="veteranYears">Number of Years as Veteran</label>
-                <input type="text" id="veteranYears">
-          </div>
-          <div class="form-group">
-            <button ng-click="showStep('step5')" class="btn btn-danger btn-lg btn-block">Back</button>
-              <button ng-click="showStep('step7')" class="btn btn-success btn-lg btn-block">Next</button>
-          </div>
-        </div>
-        <div class="animate-switch" ng-switch-when="step7">
             <div class="alert alert-success" role="alert">
-                <h4 class="alert-heading">YAY YOURE DONE!!!!!</h4>
-                <p>Aww yeah, you successfully completed the pension calculator.</p>
+                <h4 class="alert-heading">Calculation Results</h4>
+                <p>Bellow are your results</p>
             </div>
         </div>
     </div>
+
+    <fieldset ng-show="counter > 0">
+        <button ng-show="counter >= 1"
+                ng-click="backward()"
+                class="ma__button ma__button--minor ma__button--small">
+            Back
+        </button>
+        <button ng-show="counter < max"
+                ng-click="forward()"
+                class="ma__button ma__button--small">
+            Next
+        </button>
+        <button ng-show="counter == max"
+                ng-click=""
+                class="ma__button ma__button--small">
+            Recalculate
+        </button>
+    </fieldset>
 </form>
+
