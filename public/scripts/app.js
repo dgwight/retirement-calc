@@ -11,7 +11,7 @@
 angular
   .module('testApp', [
         'ngRoute',
-        '720kb.datepicker'
+        'moment-picker'
   ])
   .config(function ($routeProvider) {
     $routeProvider
