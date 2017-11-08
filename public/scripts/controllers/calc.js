@@ -71,6 +71,13 @@ angular.module('testApp')
             },
             {
                 alias: "step6",
+                title: "Step 6: Beneficiary Information (Optional)",
+                validate: function() {
+                    return {ok: true};
+                }
+            },
+            {
+                alias: "results",
                 title: "All set! Here are your estimates...",
                 validate: function() {
                     return {ok: true};
@@ -84,6 +91,7 @@ angular.module('testApp')
             isVeteran: null,
             startDate: null,
             endDate: null,
+            beneBirthDate: null,
         };
 
         scope.max = stepData.length - 1;

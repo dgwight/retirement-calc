@@ -1,5 +1,5 @@
 <div id="calc-header" class="ma__page-header__content">
-    <img src="images/mass-logo.png" alt="Mass.gov" width="164">
+    <img src="../images/mass-logo.png" alt="Mass.gov" width="164">
     <h1 class="ma__page-header__title">MA State Pension Estimator</h1>
     <section id="calc-description" class="ma__rich-text">
         <p>This pension calculator will give members of the Massachusetts Employees' State Retirement System in groups 1, 2 or 4 an approximation of their retirement benefits.</p>
@@ -140,6 +140,22 @@
             </div>
         </div>
         <div class="animate-switch" ng-switch-when="step6">
+            <div class="ma__form-page">
+                <fieldset>
+                    <label for="beneBirthDate" class="ma__label ma__label--required">Beneficiary Date of Birth</label>
+                    <datepicker date-format="MMMM d, y" date-set-hidden="true">
+                        <input id="beneBirthDate" class="ma__input-date" type="text" placeholder="Choose a date..."
+                               ng-model="form.beneBirthDate" readonly />
+                    </datepicker>
+                    <div class="clear"></div>
+                    <label class="ma__helper-text">
+                        If you are interested in estimating your benefits under Option C, enter your beneficiary's age on the birthdays that are closest to your date of retirement.
+                        <br /><strong>Reminder: Your Option C beneficiary must be your spouse, child, sibling, parent or former spouse who has not remarried.</strong>
+                    </label>
+                </fieldset>
+            </div>
+        </div>
+        <div class="animate-switch" ng-switch-when="results">
             <div class="alert alert-success" role="alert">
                 <h4 class="alert-heading">Calculation Results</h4>
                 <p>Bellow are your results</p>
