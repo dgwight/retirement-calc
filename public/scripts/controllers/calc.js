@@ -250,8 +250,6 @@ angular.module('testApp')
         };
 
         scope.yearsAgoString = function (years, format) {
-            const yearsAgoString = moment().subtract(years, 'years').format(format);
-            console.log(yearsAgoString);
-            return yearsAgoString;
+            return moment().subtract(years, 'years').format(format);
         };
     }]);
