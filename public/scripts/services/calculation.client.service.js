@@ -4,6 +4,7 @@
     angular
         .module("testApp")
         .factory("CalculatorService", function () {
+
             /**
              * Represents an enumeration for all retirement plan options.
              */
@@ -84,16 +85,11 @@
                 }
             }
 
-            function getMaxAnnualPension (highestAverageSalary, years, dateOfBirth, dateOfRetirement, group, isVeteran) {
+            function getMaxAnnualPension (highestAverageSalary, years, dateOfBirth, dateOfRetirement, group, veteranYears) {
                 const ageFactor = getAgeFactor(dateOfBirth, dateOfRetirement, group);
                 const baseMaxAnnualPension = ageFactor * years * highestAverageSalary;
-                if (isVeteran) {
-                    return years > 20 ? baseMaxAnnualPension + years * 15 : baseMaxAnnualPension + 300;
-                } else {
-                    return baseMaxAnnualPension;
-                }
+                return veteranYears < 20 ? baseMaxAnnualPension + veteranYears * 15 : baseMaxAnnualPension + 300;
             }
-
 
             /**
              * Used for calculating pension for Option B
@@ -120,6 +116,7 @@
              * Used for calculating pension for Option C
              * @param maxPension
              * @param retireAge_Years
+             * @param beneficiaryAge_Years
              * @returns {number}
              */
             function calcOptionC(maxPension, retireAge_Years, beneficiaryAge_Years) {
@@ -150,8 +147,8 @@
              * @returns {boolean}
              */
             function isEligibleForRetirement(dateOfStartEmployment, retirementAge_Years, yearsWorked, employeeGroup) {
-                let secondPolicyDate = new Date("4/2/2012");
-                let isFirstPolicy = secondPolicyDate < dateOfStartEmployment;
+                let secondPolicyDate = new Date("4/2/2012").getTime();
+                let isFirstPolicy =  dateOfStartEmployment < secondPolicyDate;
                 if (isFirstPolicy) {
                     if (yearsWorked >= 20) {
                         return true;
@@ -202,17 +199,13 @@
             }
 
             /**
-             * Calculates the rounded amount of years between two unix timstamps
-             * @param unixStart in seconds
-             * @param unixEnd in seconds
+             * Calculates the rounded amount of years between two Moment timstamps
+             * @param MomentStart in seconds
+             * @param MomentEnd in seconds
              * @returns {number}
              */
-            function calcYearsBetween(unixStart, unixEnd) {
-                const dateStart = new Date(unixStart);
-                const dateEnd = new Date(unixEnd);
-                // TODO use a better way to calculate the age in years
-                return Math.round(
-                    (dateEnd.getTime() - dateStart.getTime()) / (1000 * 3600 * 24 * 365));
+            function calcYearsBetween(MomentStart, MomentEnd) {
+                return MomentStart.diff(MomentEnd, 'years', true);
             }
 
             /**
@@ -220,14 +213,14 @@
              *
              * @param highestAverageSalary  Float, highest average salary in dollars
              *
-             * @param birthUnix             long, unix timestamp in seconds
-             * @param startUnix             long, unix timestamp in seconds
-             * @param retireUnix            long, unix timestamp in seconds
+             * @param birthMoment             long, Moment timestamp in seconds
+             * @param startMoment             long, Moment timestamp in seconds
+             * @param retireMoment            long, Moment timestamp in seconds
              *
              * @param groupNum              String, this employee's group number
-             * @param isVeteran             boolean, is employee a veteran?
+             * @param veteranYears          int, nullable, years served as a veteran
              *
-             * @param beneBirthUnix               long object, benefactor birth date.
+             * @param beneBirthMoment         long object, benefactor birth date.
              *
              * @param retireOption          String, what type of retirement plan
              *
@@ -235,14 +228,14 @@
              *                              {"annualPension": number, "beneAnnualPension": number};
              *                              or if beneAnnualPension does not apply:
              *                              {"annualPension": number}
-             * @throws                      if option C is selected and beneBirthUnix was None.
+             * @throws                      if option C is selected and beneBirthMoment was None.
              * @throws                      the argument length does not match.
              * @throws                      the option or group number does not match any enum defined
              */
             function getAnnualPension(highestAverageSalary,
-                                      birthUnix, startUnix, retireUnix,
-                                      groupNum, isVeteran,
-                                      beneBirthUnix,
+                                      birthMoment, startMoment, retireMoment,
+                                      groupNum, veteranYears,
+                                      beneBirthMoment,
                                       retireOption) {
 
                 // TODO more validation
@@ -252,16 +245,16 @@
                 const optionEnum = convertOptionToEnum(retireOption);
                 const groupEnum = convertGroupToEnum(groupNum);
 
-                const retireAge_Years = calcYearsBetween(birthUnix, retireUnix);
-                const yearsWorked = calcYearsBetween(startUnix, retireUnix);
+                const retireAge_Years = calcYearsBetween(birthMoment, retireMoment);
+                const yearsWorked = calcYearsBetween(startMoment, retireMoment);
 
                 // Check if eligible for retirement
-                if (isEligibleForRetirement(startUnix, retireAge_Years, yearsWorked, groupEnum)) {
+                if (!isEligibleForRetirement(startMoment, retireAge_Years, yearsWorked, groupEnum)) {
                     throw "Not eligible for retirement!";
                 }
 
                 const maxAnnualPension = getMaxAnnualPension(highestAverageSalary, yearsWorked,
-                                                                birthUnix, retireUnix, groupNum, isVeteran);
+                    birthMoment, retireMoment, groupNum, veteranYears);
 
                 switch (optionEnum) {
                     case RetirementOption.A:
@@ -269,11 +262,11 @@
                     case RetirementOption.B:
                         return {"annualPension": calcOptionB(maxAnnualPension, retireAge_Years)};
                     case RetirementOption.C:
-                        if (!beneBirthUnix) {
-                            throw "Option C requires a benefactor!"
+                        if (!beneBirthMoment) {
+                            throw "Option C requires a benefactor!";
                         } else {
                             // TODO Implement this: need to clarify exactly how to calculate this!
-                            return {"annualPension": calcOptionC(maxAnnualPension, retireAge_Years, calcYearsBetween(beneBirthUnix, retireUnix);)};
+                            return {"annualPension": calcOptionC(maxAnnualPension, retireAge_Years, calcYearsBetween(beneBirthMoment, retireMoment))};
                         }
                 }
             }
