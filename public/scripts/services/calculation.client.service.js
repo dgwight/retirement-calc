@@ -85,16 +85,11 @@
                 }
             }
 
-            function getMaxAnnualPension (highestAverageSalary, years, dateOfBirth, dateOfRetirement, group, isVeteran) {
+            function getMaxAnnualPension (highestAverageSalary, years, dateOfBirth, dateOfRetirement, group, veteranYears) {
                 const ageFactor = getAgeFactor(dateOfBirth, dateOfRetirement, group);
                 const baseMaxAnnualPension = ageFactor * years * highestAverageSalary;
-                if (isVeteran) {
-                    return years > 20 ? baseMaxAnnualPension + years * 15 : baseMaxAnnualPension + 300;
-                } else {
-                    return baseMaxAnnualPension;
-                }
+                return veteranYears < 20 ? baseMaxAnnualPension + veteranYears * 15 : baseMaxAnnualPension + 300;
             }
-
 
             /**
              * Used for calculating pension for Option B
@@ -258,10 +253,8 @@
                     throw "Not eligible for retirement!";
                 }
 
-                const isVeteran = !!veteranYears;
-
                 const maxAnnualPension = getMaxAnnualPension(highestAverageSalary, yearsWorked,
-                    birthMoment, retireMoment, groupNum, isVeteran);
+                    birthMoment, retireMoment, groupNum, veteranYears);
 
                 switch (optionEnum) {
                     case RetirementOption.A:
