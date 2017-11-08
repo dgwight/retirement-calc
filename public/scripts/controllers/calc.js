@@ -8,7 +8,7 @@
  * Controller of the testApp
  */
 angular.module('testApp')
-    .controller('CalcCtrl', ["$scope", function ($scope) {
+    .controller('CalcCtrl', ["$scope", "CalculatorService", function ($scope, CalculatorService) {
         var scope = $scope;
 
         const retireMinAge = 36;
@@ -29,7 +29,7 @@ angular.module('testApp')
                     }
                     const birthDate = moment(scope.form.birthDate, "MMMM D, YYYY");
                     const minBirthDate = moment().subtract(retireMinAge, 'years');
-                    scope.form.birthDateUnix = moment.unix(birthDate);
+                    scope.form.birthDateUnix = birthDate.unix();
 
                     if (birthDate.isAfter(minBirthDate)) {
                         return {
@@ -45,6 +45,19 @@ angular.module('testApp')
                 alias: "step2",
                 title: "Step 2: Employee Group Number",
                 validate: function() {
+                    switch (scope.form.groupName) {
+                        case "Group 1":
+                            scope.form.groupNum = "1";
+                            break;
+                        case "Group 2":
+                            scope.form.groupNum = "2";
+                            break;
+                        case "Group 4":
+                            scope.form.groupNum = "4";
+                            break;
+                        default:
+                            return {okay: false, reason: "Invalid group number!"};
+                    }
                     return {ok: true};
                 }
             },
@@ -52,6 +65,26 @@ angular.module('testApp')
                 alias: "step3",
                 title: "Step 3: Service Time Range",
                 validate: function() {
+                    if (!scope.form.startDate) {
+                        return {ok: false, reason: "No start date specified!"};
+                    }
+
+                    if (!scope.form.endDate) {
+                        return {ok: false, reason: "No end date specified!"};
+                    }
+
+                    const startDateObj = moment(scope.form.startDate, "MMMM D, YYYY");
+                    scope.form.startDateUnix = startDateObj.unix();
+
+                    const endDateObj = moment(scope.form.endDate, "MMMM D, YYYY");
+                    scope.form.retireDateUnix = endDateObj.unix();
+
+                    if (startDateObj.isAfter(endDateObj)) {
+                        return {
+                            ok: false,
+                            reason: "Sorry, you must be older than 36 to retire.\nPlease check the date or the Benefit Guide for more details."
+                        };
+                    }
                     return {ok: true};
                 }
             },
@@ -73,6 +106,12 @@ angular.module('testApp')
                 alias: "step6",
                 title: "Step 6: Beneficiary Information (Optional)",
                 validate: function() {
+                    if (!scope.form.beneBirthDate) {
+                        return {ok: false, reason: "No end date specified!"};
+                    }
+
+                    const beneDateObj = moment(scope.form.beneBirthDate, "MMMM D, YYYY");
+                    scope.form.beneBirthUnix = beneDateObj.unix();
                     return {ok: true};
                 }
             },
@@ -87,12 +126,24 @@ angular.module('testApp')
         scope.agreed = true;
         scope.form = {
             birthDate: null,
+            birthDateUnix: null,
+
             groupName: "Group 1",
+            groupNum: null,
+
             startDate: null,
+            startDateUnix: null,
             endDate: null,
+            retireDateUnix: null,
+
+            highestAverageSalary: null,
+
             isVeteran: null,
             veteranYears: null,
+
             beneBirthDate: null,
+            beneBirthUnix: null,
+
         };
 
         scope.max = stepData.length - 1;
@@ -109,9 +160,28 @@ angular.module('testApp')
             }).animate({'opacity': 1}, 350);
         }
 
-        async function calculateOptions(option, ) {
-            // const optionA = await axios.post("/what", );
+        function calcWithOption(optionStr) {
+            let formData = scope.form;
+            return CalculatorService.getAnnualPension(
+                formData.highestAverageSalary,
+                formData.birthDateUnix,
+                formData.startDateUnix,
+                formData.retireDateUnix,
+                formData.groupNum,
+                formData.veteranYears,
+                formData.beneBirthUnix,
+                optionStr);
+        }
 
+        function calculateOptions() {
+            const result = {};
+            result.optionA = calcWithOption("A");
+            result.optionB = calcWithOption("B");
+            if (scope.form.beneBirthDate) {
+                result.optionC = calcWithOption("C");
+            }
+            console.log(result);
+            return result;
         }
 
         async function moveForward() {
@@ -122,7 +192,8 @@ angular.module('testApp')
                 scope.stepTitle = stepData[scope.counter].title;
                 scope.$apply();
             } else if (scope.counter === (scope.max - 1)) {
-                const optionA = await calculateOption();
+                const results = calculateOptions();
+                console.log(results);
                 scope.counter += 1;
                 scope.step = stepData[scope.counter];
                 scope.progress += progressStep;
@@ -176,5 +247,4 @@ angular.module('testApp')
             }
             transitionToNewTitle(moveBackward);
         };
-
     }]);

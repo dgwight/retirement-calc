@@ -120,6 +120,7 @@
              * Used for calculating pension for Option C
              * @param maxPension
              * @param retireAge_Years
+             * @param beneficiaryAge_Years
              * @returns {number}
              */
             function calcOptionC(maxPension, retireAge_Years, beneficiaryAge_Years) {
@@ -150,8 +151,8 @@
              * @returns {boolean}
              */
             function isEligibleForRetirement(dateOfStartEmployment, retirementAge_Years, yearsWorked, employeeGroup) {
-                let secondPolicyDate = new Date("4/2/2012");
-                let isFirstPolicy = secondPolicyDate < dateOfStartEmployment;
+                let secondPolicyDate = new Date("4/2/2012").getTime();
+                let isFirstPolicy =  dateOfStartEmployment < secondPolicyDate;
                 if (isFirstPolicy) {
                     if (yearsWorked >= 20) {
                         return true;
@@ -208,11 +209,12 @@
              * @returns {number}
              */
             function calcYearsBetween(unixStart, unixEnd) {
-                const dateStart = new Date(unixStart);
-                const dateEnd = new Date(unixEnd);
+                // const dateStart = new Date(unixStart);
+                // const dateEnd = new Date(unixEnd);
                 // TODO use a better way to calculate the age in years
-                return Math.round(
-                    (dateEnd.getTime() - dateStart.getTime()) / (1000 * 3600 * 24 * 365));
+                // return Math.round(
+                //     (dateEnd.getTime() - dateStart.getTime()) / (3600 * 24 * 365));
+                return Math.round((unixEnd - unixStart) / parseFloat(3600 * 24 * 365));
             }
 
             /**
@@ -225,9 +227,9 @@
              * @param retireUnix            long, unix timestamp in seconds
              *
              * @param groupNum              String, this employee's group number
-             * @param isVeteran             boolean, is employee a veteran?
+             * @param veteranYears          int, nullable, years served as a veteran
              *
-             * @param beneBirthUnix               long object, benefactor birth date.
+             * @param beneBirthUnix         long object, benefactor birth date.
              *
              * @param retireOption          String, what type of retirement plan
              *
@@ -241,7 +243,7 @@
              */
             function getAnnualPension(highestAverageSalary,
                                       birthUnix, startUnix, retireUnix,
-                                      groupNum, isVeteran,
+                                      groupNum, veteranYears,
                                       beneBirthUnix,
                                       retireOption) {
 
@@ -256,12 +258,14 @@
                 const yearsWorked = calcYearsBetween(startUnix, retireUnix);
 
                 // Check if eligible for retirement
-                if (isEligibleForRetirement(startUnix, retireAge_Years, yearsWorked, groupEnum)) {
+                if (!isEligibleForRetirement(startUnix, retireAge_Years, yearsWorked, groupEnum)) {
                     throw "Not eligible for retirement!";
                 }
 
+                const isVeteran = !!veteranYears;
+
                 const maxAnnualPension = getMaxAnnualPension(highestAverageSalary, yearsWorked,
-                                                                birthUnix, retireUnix, groupNum, isVeteran);
+                    birthUnix, retireUnix, groupNum, isVeteran);
 
                 switch (optionEnum) {
                     case RetirementOption.A:
@@ -273,7 +277,7 @@
                             throw "Option C requires a benefactor!"
                         } else {
                             // TODO Implement this: need to clarify exactly how to calculate this!
-                            return {"annualPension": calcOptionC(maxAnnualPension, retireAge_Years, calcYearsBetween(beneBirthUnix, retireUnix);)};
+                            return {"annualPension": calcOptionC(maxAnnualPension, retireAge_Years, calcYearsBetween(beneBirthUnix, retireUnix))};
                         }
                 }
             }
