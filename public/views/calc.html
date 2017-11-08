@@ -37,7 +37,7 @@
             <div class="ma__form-page">
                 <fieldset id="dob">
                     <label for="dob-input" class="ma__label ma__label--required">Date of Birth</label>
-                    <div class="ma__error-msg" ng-show="showError">You fucked up.</div>
+                    <div class="ma__error-msg" ng-show="showError">{{topErrorMsg}}</div>
                     <datepicker date-month-title="selected year"
                                 date-format="MMMM d, y"
                                 date-set-hidden="true">

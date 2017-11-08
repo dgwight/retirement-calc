@@ -234,6 +234,7 @@ angular.module('testApp')
                 transitionToNewTitle(moveForward);
             }  else {
                 scope.showError = true;
+                scope.topErrorMsg = validationResults.reason;
                 console.log(validationResults.reason);
             }
         };
