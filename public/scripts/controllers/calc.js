@@ -29,7 +29,7 @@ angular.module('testApp')
                     }
                     const birthDate = moment(scope.form.birthDate, "MMMM D, YYYY");
                     const minBirthDate = moment().subtract(retireMinAge, 'years');
-                    scope.form.birthDateUnix = birthDate.unix();
+                    scope.form.birthDateMoment = birthDate;
 
                     if (birthDate.isAfter(minBirthDate)) {
                         return {
@@ -74,10 +74,10 @@ angular.module('testApp')
                     }
 
                     const startDateObj = moment(scope.form.startDate, "MMMM D, YYYY");
-                    scope.form.startDateUnix = startDateObj.unix();
+                    scope.form.startDateMoment = startDateObj;
 
                     const endDateObj = moment(scope.form.endDate, "MMMM D, YYYY");
-                    scope.form.retireDateUnix = endDateObj.unix();
+                    scope.form.retireDateMoment = endDateObj;
 
                     if (startDateObj.isAfter(endDateObj)) {
                         return {
@@ -111,7 +111,7 @@ angular.module('testApp')
                     }
 
                     const beneDateObj = moment(scope.form.beneBirthDate, "MMMM D, YYYY");
-                    scope.form.beneBirthUnix = beneDateObj.unix();
+                    scope.form.beneBirthMoment = beneDateObj;
                     return {ok: true};
                 }
             },
@@ -126,15 +126,15 @@ angular.module('testApp')
         scope.agreed = true;
         scope.form = {
             birthDate: null,
-            birthDateUnix: null,
+            birthDateMoment: null,
 
             groupName: "Group 1",
             groupNum: null,
 
             startDate: null,
-            startDateUnix: null,
+            startDateMoment: null,
             endDate: null,
-            retireDateUnix: null,
+            retireDateMoment: null,
 
             highestAverageSalary: null,
 
@@ -142,7 +142,7 @@ angular.module('testApp')
             veteranYears: null,
 
             beneBirthDate: null,
-            beneBirthUnix: null,
+            beneBirthMoment: null,
 
         };
 
@@ -164,12 +164,12 @@ angular.module('testApp')
             let formData = scope.form;
             return CalculatorService.getAnnualPension(
                 formData.highestAverageSalary,
-                formData.birthDateUnix,
-                formData.startDateUnix,
-                formData.retireDateUnix,
+                formData.birthDateMoment,
+                formData.startDateMoment,
+                formData.retireDateMoment,
                 formData.groupNum,
                 formData.veteranYears,
-                formData.beneBirthUnix,
+                formData.beneBirthMoment,
                 optionStr);
         }
 
