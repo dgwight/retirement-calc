@@ -88,9 +88,10 @@ angular.module('testApp')
         scope.form = {
             birthDate: null,
             groupName: "Group 1",
-            isVeteran: null,
             startDate: null,
             endDate: null,
+            isVeteran: null,
+            veteranYears: null,
             beneBirthDate: null,
         };
 
@@ -108,8 +109,20 @@ angular.module('testApp')
             }).animate({'opacity': 1}, 350);
         }
 
-        function moveForward() {
-            if (scope.counter >= 0 && scope.counter < scope.max) {
+        async function calculateOptions(option, ) {
+            // const optionA = await axios.post("/what", );
+
+        }
+
+        async function moveForward() {
+            if (scope.counter >= 0 && scope.counter < (scope.max - 1)) {
+                scope.counter += 1;
+                scope.step = stepData[scope.counter];
+                scope.progress += progressStep;
+                scope.stepTitle = stepData[scope.counter].title;
+                scope.$apply();
+            } else if (scope.counter === (scope.max - 1)) {
+                const optionA = await calculateOption();
                 scope.counter += 1;
                 scope.step = stepData[scope.counter];
                 scope.progress += progressStep;
@@ -117,6 +130,7 @@ angular.module('testApp')
                 scope.$apply();
             }
         }
+
         function moveBackward() {
             if (scope.counter >= 1) {
                 scope.counter -= 1;
