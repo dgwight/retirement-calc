@@ -248,4 +248,10 @@ angular.module('testApp')
             }
             transitionToNewTitle(moveBackward);
         };
+
+        scope.yearsAgoString = function (years, format) {
+            const yearsAgoString = moment().subtract(years, 'years').format(format);
+            console.log(yearsAgoString);
+            return yearsAgoString;
+        };
     }]);
