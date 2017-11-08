@@ -56,13 +56,18 @@
                 <fieldset>
                     <label for="group">Group Number</label>
                     <div class="ma__select-box__field">
-                        <select ng-model="form.groupNumber" class="ma__select-box__select" id="group">
+                        <select id="group" class="ma__select-box__select" ng-model="form.groupName">
                             <option>Group 1</option>
                             <option>Group 2</option>
-                            <option>Group 3</option>
                             <option>Group 4</option>
                         </select>
                     </div>
+                    <div class="clear"></div>
+                    <label for="group" class="ma__helper-text">
+                        <p>The retirement board classifies members within one of the four <a href="https://www.mass.gov/service-details/group-classification-policy-msrb">applicable groups</a>.
+                            <br />Your group classification may impact your individual retirement allowance.</p>
+                        <p>Group 3 is not available in this calculator.</p>
+                    </label>
                 </fieldset>
             </div>
         </div>
@@ -71,14 +76,16 @@
                 <fieldset>
                     <label for="startDate" class="ma__label ma__label--required">Employment Start Date</label>
                     <datepicker date-format="MMMM d, y" date-set-hidden="true">
-                        <input id="startDate" ng-model="date" type="text" placeholder="Choose your start date"/>
+                        <input id="startDate" class="ma__input-date" type="text" placeholder="Choose start date"
+                               ng-model="form.startDate" readonly />
                     </datepicker>
                 </fieldset>
 
                 <fieldset>
                     <label for="endDate" class="ma__label ma__label--required">Employment End Date</label>
                     <datepicker date-format="MMMM d, y" date-set-hidden="true">
-                        <input id="endDate" ng-model="date" type="text" placeholder="Choose your end date:"/>
+                        <input id="endDate" class="ma__input-date" type="text" placeholder="Choose end date"
+                               ng-model="form.endDate" readonly/>
                     </datepicker>
                     <div class="clear"></div>
                     <label for="endDate" class="ma__helper-text">Your projected date of retirement.</label>
@@ -87,8 +94,13 @@
         </div>
         <div class="animate-switch" ng-switch-when="step4">
             <div class="ma__form-page">
+
                 <label for="highestPay">Highest Pay in Period (This text needs to change depending on start date)</label>
                 <input id="highestPay" type="text" placeholder="Highest pay:"/>
+                <div class="clear"></div>
+                <label for="highestPay" class="ma__helper-text">
+                    Estimated average of your highest thirty-six consecutive months of annual regular compensation.
+                </label>
             </div>
         </div>
         <div class="animate-switch" ng-switch-when="step5">

@@ -11,7 +11,7 @@ angular.module('testApp')
     .controller('CalcCtrl', ["$scope", function ($scope) {
         var scope = $scope;
 
-        const retireMinAge = moment();
+        const retireMinAge = 36;
         let stepData = [
             {
                 alias: "agree",
@@ -28,7 +28,7 @@ angular.module('testApp')
                         return {ok: false, reason: "No birth date specified!"};
                     }
                     const birthDate = moment(scope.form.birthDate, "MMMM D, YYYY");
-                    const minBirthDate = moment().subtract(36, 'years');
+                    const minBirthDate = moment().subtract(retireMinAge, 'years');
                     scope.form.birthDateUnix = moment.unix(birthDate);
 
                     if (birthDate.isAfter(minBirthDate)) {
@@ -80,8 +80,10 @@ angular.module('testApp')
         scope.agreed = true;
         scope.form = {
             birthDate: null,
-            groupNumber: null,
+            groupName: "Group 1",
             isVeteran: null,
+            startDate: null,
+            endDate: null,
         };
 
         scope.max = stepData.length - 1;
