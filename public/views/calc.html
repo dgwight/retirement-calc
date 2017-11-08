@@ -38,17 +38,19 @@
                 <fieldset id="dob">
                     <label for="dob-input" class="ma__label ma__label--required">Date of Birth</label>
                     <div class="ma__error-msg" ng-show="showError">{{topErrorMsg}}</div>
-                    <datepicker date-month-title="selected year"
-                                date-format="MMMM d, y"
-                                date-set-hidden="true">
-                        <input id="dob-input"
-                               name="dob-input"
-                               readonly
-                               class="ma__input-date"
-                               ng-model="form.birthDate"
-                               placeholder="Choose a date..."
-                               type="text" />
-                    </datepicker>
+                    <input id="dob-input"
+                           class="ma__input-date"
+                           moment-picker="form.birthDate"
+                           type="text"
+                           format="YYYY-MM"
+                           max-view="year"
+                           start-view="decade"
+                           min-date="''"
+                           max-date="''"
+                           set-on-select="true"
+                           placeholder="Choose a date..."
+                           ng-model="form.birthDate">
+                    </input>
                 </fieldset>
             </div>
         </div>
@@ -76,18 +78,36 @@
             <div class="ma__form-page">
                 <fieldset>
                     <label for="startDate" class="ma__label ma__label--required">Employment Start Date</label>
-                    <datepicker date-format="MMMM d, y" date-set-hidden="true">
-                        <input id="startDate" class="ma__input-date" type="text" placeholder="Choose a date..."
-                               ng-model="form.startDate" readonly />
-                    </datepicker>
+                    <input id="startDate"
+                           class="ma__input-date"
+                           moment-picker="form.startDate"
+                           type="text"
+                           format="YYYY-MM"
+                           max-view="year"
+                           start-view="decade"
+                           min-date="''"
+                           max-date="''"
+                           set-on-select="true"
+                           placeholder="Choose a date..."
+                           ng-model="form.startDate">
+                    </input>
                 </fieldset>
 
                 <fieldset>
                     <label for="endDate" class="ma__label ma__label--required">Employment End Date</label>
-                    <datepicker date-format="MMMM d, y" date-set-hidden="true">
-                        <input id="endDate" class="ma__input-date" type="text" placeholder="Choose a date..."
-                               ng-model="form.endDate" readonly/>
-                    </datepicker>
+                    <input id="endDate"
+                           class="ma__input-date"
+                           moment-picker="form.endDate"
+                           type="text"
+                           format="YYYY-MM"
+                           max-view="year"
+                           start-view="decade"
+                           min-date="''"
+                           max-date="''"
+                           set-on-select="true"
+                           placeholder="Choose a date..."
+                           ng-model="form.endDate">
+                    </input>
                     <div class="clear"></div>
                     <label for="endDate" class="ma__helper-text">Your projected date of retirement.</label>
                 </fieldset>
@@ -144,10 +164,19 @@
             <div class="ma__form-page">
                 <fieldset>
                     <label for="beneBirthDate" class="ma__label ma__label--required">Beneficiary Date of Birth</label>
-                    <datepicker date-format="MMMM d, y" date-set-hidden="true">
-                        <input id="beneBirthDate" class="ma__input-date" type="text" placeholder="Choose a date..."
-                               ng-model="form.beneBirthDate" readonly />
-                    </datepicker>
+                    <input id="beneBirthDate"
+                           class="ma__input-date"
+                           moment-picker="form.beneBirthDate"
+                           type="text"
+                           format="YYYY-MM"
+                           max-view="year"
+                           start-view="decade"
+                           min-date="''"
+                           max-date="''"
+                           set-on-select="true"
+                           placeholder="Choose a date..."
+                           ng-model="form.beneBirthDate">
+                    </input>
                     <div class="clear"></div>
                     <label class="ma__helper-text">
                         If you are interested in estimating your benefits under Option C, enter your beneficiary's age on the birthdays that are closest to your date of retirement.
@@ -159,7 +188,7 @@
         <div class="animate-switch" ng-switch-when="results">
             <div class="alert alert-success" role="alert">
                 <h4 class="alert-heading">Calculation Results</h4>
-                <p>Bellow are your results</p>
+                <p>Below are your results</p>
             </div>
         </div>
     </div>
