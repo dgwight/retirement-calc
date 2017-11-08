@@ -1,4 +1,5 @@
 <div id="calc-header" class="ma__page-header__content">
+    <img src="images/mass-logo.png" alt="Mass.gov" width="164">
     <h1 class="ma__page-header__title">MA State Pension Estimator</h1>
     <section id="calc-description" class="ma__rich-text">
         <p>This pension calculator will give members of the Massachusetts Employees' State Retirement System in groups 1, 2 or 4 an approximation of their retirement benefits.</p>
@@ -76,7 +77,7 @@
                 <fieldset>
                     <label for="startDate" class="ma__label ma__label--required">Employment Start Date</label>
                     <datepicker date-format="MMMM d, y" date-set-hidden="true">
-                        <input id="startDate" class="ma__input-date" type="text" placeholder="Choose start date"
+                        <input id="startDate" class="ma__input-date" type="text" placeholder="Choose a date..."
                                ng-model="form.startDate" readonly />
                     </datepicker>
                 </fieldset>
@@ -84,7 +85,7 @@
                 <fieldset>
                     <label for="endDate" class="ma__label ma__label--required">Employment End Date</label>
                     <datepicker date-format="MMMM d, y" date-set-hidden="true">
-                        <input id="endDate" class="ma__input-date" type="text" placeholder="Choose end date"
+                        <input id="endDate" class="ma__input-date" type="text" placeholder="Choose a date..."
                                ng-model="form.endDate" readonly/>
                     </datepicker>
                     <div class="clear"></div>
@@ -95,12 +96,14 @@
         <div class="animate-switch" ng-switch-when="step4">
             <div class="ma__form-page">
 
+                <fieldset>
                 <label for="highestPay">Highest Pay in Period (This text needs to change depending on start date)</label>
-                <input id="highestPay" type="text" placeholder="Highest pay:"/>
+                <input id="highestPay" type="text" placeholder="Dollar amount"/>
                 <div class="clear"></div>
                 <label for="highestPay" class="ma__helper-text">
                     Estimated average of your highest thirty-six consecutive months of annual regular compensation.
                 </label>
+                </fieldset>
             </div>
         </div>
         <div class="animate-switch" ng-switch-when="step5">
