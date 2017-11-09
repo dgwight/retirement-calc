@@ -76,9 +76,9 @@
                 const weightedAge = getWeightedRetirementAge(retireAge_Years, group);
 
                 if (weightedAge >= 67) {
-                    return 2.5;
+                    return 0.025;
                 } else if (weightedAge >= 60) {
-                    return (0.125 * weightedAge ) - 5.875;
+                    return ((0.125 * weightedAge ) - 5.875) / 100.0;
                 } else {
                     return 0;
                 }
