@@ -59,22 +59,21 @@
             //     If option C, reduce pension amount using above chart.
 
 
-            function getWeightedRetirementAge(dateOfBirth, dateOfRetirement, group) {
-                const age = dateOfBirth - dateOfRetirement;
+            function getWeightedRetirementAge(retireAge_Years, group) {
                 switch (group) {
                     case "1":
-                        return age;
+                        return retireAge_Years + 5.0;
                     case "2":
-                        return age + 5.0;
+                        return retireAge_Years + 5.0;
                     case "4":
-                        return age + 10.0;
+                        return retireAge_Years + 10.0;
                     default:
-                        return age;
+                        return retireAge_Years;
                 }
             }
 
-            function getAgeFactor(dateOfBirth, dateOfRetirement, group) {
-                const weightedAge = getWeightedRetirementAge(dateOfBirth, dateOfRetirement, group);
+            function getAgeFactor(retireAge_Years, group) {
+                const weightedAge = getWeightedRetirementAge(retireAge_Years, group);
 
                 if (weightedAge >= 67) {
                     return 2.5;
@@ -85,8 +84,9 @@
                 }
             }
 
-            function getMaxAnnualPension (highestAverageSalary, years, dateOfBirth, dateOfRetirement, group, veteranYears) {
-                const ageFactor = getAgeFactor(dateOfBirth, dateOfRetirement, group);
+            function getMaxAnnualPension (highestAverageSalary, years, retireAge_Years,
+                                          group, veteranYears) {
+                const ageFactor = getAgeFactor(retireAge_Years, group);
                 const baseMaxAnnualPension = ageFactor * years * highestAverageSalary;
                 return veteranYears < 20 ? baseMaxAnnualPension + veteranYears * 15 : baseMaxAnnualPension + 300;
             }
@@ -205,7 +205,7 @@
              * @returns {number}
              */
             function calcYearsBetween(MomentStart, MomentEnd) {
-                return MomentStart.diff(MomentEnd, 'years', true);
+                return Math.round(MomentEnd.diff(MomentStart, 'years', true));
             }
 
             /**
@@ -253,8 +253,9 @@
                     throw "Not eligible for retirement!";
                 }
 
-                const maxAnnualPension = getMaxAnnualPension(highestAverageSalary, yearsWorked,
-                    birthMoment, retireMoment, groupNum, veteranYears);
+                const maxAnnualPension = getMaxAnnualPension(
+                    highestAverageSalary, yearsWorked, retireAge_Years,
+                    groupNum, veteranYears);
 
                 switch (optionEnum) {
                     case RetirementOption.A:

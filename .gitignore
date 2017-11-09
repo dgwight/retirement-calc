@@ -5,3 +5,4 @@ dist
 *.log
 .idea
 package-lock.json
+.sass-cache
