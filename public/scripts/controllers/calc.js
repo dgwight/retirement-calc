@@ -192,8 +192,9 @@ angular.module('testApp')
                 scope.stepTitle = stepData[scope.counter].title;
                 scope.$apply();
             } else if (scope.counter === (scope.max - 1)) {
-                const results = calculateOptions();
-                console.log(results);
+                console.log("trying");
+                scope.results = calcWithOption("A"); //calculateOptions();
+                console.log(scope.results);
                 scope.counter += 1;
                 scope.step = stepData[scope.counter];
                 scope.progress += progressStep;
