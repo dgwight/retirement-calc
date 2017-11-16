@@ -38,7 +38,7 @@
                 </fieldset>
             </div>
         </div>
-        <div class="animate-switch" ng-switch-when="step2">
+        <div class="animate-switch" ng-switch-when="step1">
             <div class="ma__form-page">
                 <fieldset id="dob">
                     <label for="dob-input" class="ma__label ma__label--required">Date of Birth</label>
@@ -59,37 +59,44 @@
                 </fieldset>
             </div>
         </div>
-        <div class="animate-switch" ng-switch-when="step1">
+        <div class="animate-switch" ng-switch-when="step2">
             <div class="ma__form-page">
                 <fieldset>
-                    <label class="ma__label ma__label--required">What is your group number?</label>
                     <div class="ma__input-group__items">
                         <div class="ma__input-group__item">
                         <span class="ma__input-radio">
                             <input id="group1" type="radio"
                                    ng-model="form.groupName" ng-value="'Group 1'"/>
-                            <label for="group1"><span>Group 1</span></label>
+                            <label for="group1">Group 1</label>
                             <span class="checkmark"></span>
                         </span>
                         </div>
                         <div class="ma__input-group__item">
                         <span class="ma__input-radio">
                             <input id="group2" type="radio"
-                                   ng-model="form.groupName" ng-value="'Group2'"/>
+                                   ng-model="form.groupName" ng-value="'Group 2'"/>
                             <label for="group2"><span>Group 2</span></label>
                             <span class="checkmark"></span>
                         </span>
                         </div>
                         <div class="ma__input-group__item">
                         <span class="ma__input-radio">
-                            <input id="group3" type="radio"
-                                   ng-model="form.groupName" ng-value="'Group4'"/>
-                            <label for="group3"><span>Group 4</span></label>
+                            <input id="group4" type="radio"
+                                   ng-model="form.groupName" ng-value="'Group 4'"/>
+                            <label for="group4"><span>Group 4</span></label>
                             <span class="checkmark"></span>
                         </span>
                         </div>
                     </div>
                 </fieldset>
+                <div class="clear"></div>
+                <label class="ma__helper-text">
+                    <p>The retirement board classifies members within one of the four <a
+                            href="https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIV/Chapter32/Section3">applicable
+                        groups</a>.
+                        <br/>Your group classification may impact your individual retirement allowance.</p>
+                    <p>Group 3 is not available in this calculator.</p>
+                </label>
             </div>
         </div>
         <div class="animate-switch" ng-switch-when="step3">
