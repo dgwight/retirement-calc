@@ -16,6 +16,9 @@ app.use(express.static(__dirname + '/public'));
 // ---------------------------------- DATABASE ---------------------------------
 var mongoose = require('mongoose');
 var connectionString = 'mongodb://localhost/pension';
+if(process.env.MONGODB_URI) {                       // check if running remotely
+    var connectionString = process.env.MONGODB_URI;
+}
 mongoose.connect(connectionString);
 var db = mongoose.connection;
 
