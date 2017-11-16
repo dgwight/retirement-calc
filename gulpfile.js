@@ -10,7 +10,7 @@ var wiredep = require('wiredep').stream;
 var runSequence = require('run-sequence');
 
 var yeoman = {
-  app:  'app',
+  app:  'public',
   dist: 'dist'
 };
 
@@ -18,12 +18,14 @@ var paths = {
   scripts: [yeoman.app + '/scripts/**/*.js'],
   styles: [yeoman.app + '/styles/**/*.scss'],
   test: [
+    'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js',
     'test/spec/**/*.js',
     'node_modules/angular/angular.js',
     'node_modules/angular-mocks/angular-mocks.js',
     'node_modules/angular-route/angular-route.js'
     ],
   testRequire: [
+    'node_modules/moment/moment.js',
     'node_modules/angular/angular.js',
     'node_modules/angular-mocks/angular-mocks.js',
     'node_modules/angular-route/angular-route.js',
