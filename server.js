@@ -5,6 +5,10 @@ var cors = require('cors');
 app.use(cors({
     origin: 'http://localhost:3000'
 }));
+var bodyParser    = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 // ----------------------------- EXPOSE PUBLIC FILES ---------------------------
 app.use(express.static(__dirname + '/public'));
