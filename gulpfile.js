@@ -10,7 +10,7 @@ var wiredep = require('wiredep').stream;
 var runSequence = require('run-sequence');
 
 var yeoman = {
-  app:  'app',
+  app:  'public',
   dist: 'dist'
 };
 
@@ -24,9 +24,11 @@ var paths = {
     'node_modules/angular-route/angular-route.js'
     ],
   testRequire: [
+    'node_modules/moment/moment.js',
     'node_modules/angular/angular.js',
     'node_modules/angular-mocks/angular-mocks.js',
     'node_modules/angular-route/angular-route.js',
+    'node_modules/angular-moment-picker/dist/angular-moment-picker.js',
     'test/mock/**/*.js',
     'test/spec/**/*.js'
   ],

@@ -1,0 +1,15 @@
+._720kb-datepicker-calendar {
+  width: 80%;
+}
+
+._720kb-datepicker-calendar-header:nth-child(odd) {
+  background: $c-theme-blue;
+}
+
+._720kb-datepicker-calendar-month span {
+  color: $c-white;
+}
+
+._720kb-datepicker-calendar-header a, ._720kb-datepicker-calendar-header a:hover {
+  color: $c-white;
+}
