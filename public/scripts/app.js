@@ -10,7 +10,8 @@
  */
 angular
   .module('testApp', [
-        'ngRoute'
+        'ngRoute',
+        'moment-picker'
   ])
   .config(function ($routeProvider) {
     $routeProvider
