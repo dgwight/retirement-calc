@@ -1,11 +1,26 @@
-const express = require('express')
-const app = express()
+// ---------------------------------- EXPRESS ----------------------------------
+var express = require('express')
+var app = express()
+var cors = require('cors');
+app.use(cors({
+    origin: 'http://localhost:3000'
+}));
 
-// Expose Angular app and public files
+// ----------------------------- EXPOSE PUBLIC FILES ---------------------------
 app.use(express.static(__dirname + '/public'));
 
-// Run the rest of the node app
-require("./routes/index.js")
+// ---------------------------------- DATABASE ---------------------------------
+var mongoose = require('mongoose');
+var connectionString = 'mongodb://localhost/pension';
+mongoose.connect(connectionString);
+var db = mongoose.connection;
 
+// ----------------------------------- ROUTES ----------------------------------
+var calculation = require('./routes/calculation')
+app.use('/calculation', calculation)
+
+// -------------------------------- START SERVER -------------------------------
 app.listen(process.env.PORT || 3000);
 console.log('PENSION MASTER listening on port 3000!')
+
+//module.exports = app;
