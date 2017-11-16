@@ -153,7 +153,7 @@ angular.module('testApp')
         const progressStep = 100.0 / (stepData.length - 1);
         scope.stepTitle = stepData[0].title;
 
-
+        
         function transitionToNewTitle(done) {
             $('#step-form').animate({'opacity': 0}, 350, function () {
                 done();
@@ -252,4 +252,29 @@ angular.module('testApp')
         scope.yearsAgoString = function (years, format) {
             return moment().subtract(years, 'years').format(format);
         };
+
+        scope.createCalculation = function () {
+            let formData = scope.form;
+
+            var calculation = {
+                highestAverageSalary : formData.highestAverageSalary,
+                birthMoment          : formData.birthDateMoment,
+                startMoment          : formData.startDateMoment,
+                retireMoment         : formData.retireDateMoment,
+                groupNum             : formData.groupNum,
+                veteranYears         : formData.veteranYears,
+                beneBirthMoment      : formData.beneBirthMoment
+            }
+
+            console.log(calculation);
+
+            CalculatorService
+                .createCalculation(calculation)
+                .then(function(calculationId) {
+                    console.log(calculationId)
+                    var baseLink = location.host + "/calculation/"
+                    scope.saveLink = baseLink + calculationId.data;
+                });
+        }
+
     }]);

@@ -8,11 +8,11 @@ router.get ("/:calculationId", getUser);
 
 function createUser(req, res) {
     var calculation = req.body;
-    
     calculationModel
-        .createCalculation('TODO')
+        .createCalculation(calculation)
         .then(function (calculation) {
-            res.send(calculation);
+            console.log(calculation);
+            res.send(calculation._id);
         });
 }
 

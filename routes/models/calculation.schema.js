@@ -2,14 +2,13 @@ var mongoose = require('mongoose');
 
 var calculationSchema = mongoose.Schema(
     {
-        highestAverageSalary : Number,
-        birthMoment          : Number,
-        startMoment          : Number,
-        retireMoment         : Number,
+        highestAverageSalary : Date,
+        birthMoment          : Date,
+        startMoment          : Date,
+        retireMoment         : Date,
         groupNum             : String,
-        veteranYears         : Number,
-        beneBirthMoment      : Number,
-        retireOption         : String
+        veteranYears         : Date,
+        beneBirthMoment      : Date
     },
     { collection: 'calculation'} // Explicitly declare collection name
 );

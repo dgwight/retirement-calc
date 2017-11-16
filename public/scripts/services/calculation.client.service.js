@@ -3,7 +3,7 @@
 (function () {
     angular
         .module("testApp")
-        .factory("CalculatorService", function () {
+        .factory("CalculatorService", function ($http) {
 
             /**
              * Represents an enumeration for all retirement plan options.
@@ -33,7 +33,8 @@
             initEnums();
 
             return {
-                "getAnnualPension": getAnnualPension
+                "getAnnualPension": getAnnualPension,
+                "createCalculation": createCalculation
             };
 
             function initEnums() {
@@ -270,6 +271,16 @@
                             return {"annualPension": calcOptionC(maxAnnualPension, retireAge_Years, calcYearsBetween(beneBirthMoment, retireMoment))};
                         }
                 }
+            }
+
+            /**
+             * 
+             * @param calculation       The calculation object
+             */
+            function createCalculation(calculation) {
+                console.log(calculation);
+                var url = "/calculation";
+                return $http.post(url, calculation);
             }
         });
 })();
