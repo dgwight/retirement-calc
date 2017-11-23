@@ -7,7 +7,7 @@ var calculationSchema = mongoose.Schema(
         startMoment          : Date,
         retireMoment         : Date,
         groupNum             : String,
-        veteranYears         : Date,
+        yearsWorked         : Date,
         beneBirthMoment      : Date
     },
     { collection: 'calculation'} // Explicitly declare collection name

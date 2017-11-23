@@ -144,12 +144,24 @@
                 <fieldset>
                     <label for="highestPay">Highest Pay in Period (This text needs to change depending on start
                         date)</label>
-                    <input id="highestPay" ng-model="form.highestAverageSalary" type="number"
-                           placeholder="Dollar amount"/>
+                    <input id="highestPay"
+                           ng-model="form.highestAverageSalary"
+                           type="number"
+                           placeholder="Dollar amount"
+                           min="0" />
                     <div class="clear"></div>
                     <label for="highestPay" class="ma__helper-text">
                         Estimated average of your highest thirty-six consecutive months of annual regular compensation.
                     </label>
+                </fieldset>
+
+                <fieldset>
+                    <label for="yearsWorked" class="ma__label ma__label--required">
+                        How many years of credible service did you have?</label>
+                    <input type="number"
+                           min="0" max="100"
+                           id="yearsWorked"
+                           ng-model="form.yearsWorked"/>
                 </fieldset>
             </div>
         </div>
@@ -176,15 +188,6 @@
                         </span>
                         </div>
                     </div>
-                </fieldset>
-
-                <fieldset ng-show="form.isVeteran">
-                    <label for="veteranYears" class="ma__label ma__label--required">How many years did you serve as a
-                        veteran?</label>
-                    <input type="number"
-                           min="0" max="100"
-                           id="veteranYears"
-                           ng-model="form.veteranYears">
                 </fieldset>
             </div>
         </div>

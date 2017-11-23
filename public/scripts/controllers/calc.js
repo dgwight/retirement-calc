@@ -139,7 +139,7 @@ angular.module('testApp')
             highestAverageSalary: null,
 
             isVeteran: null,
-            veteranYears: null,
+            yearsWorked: null,
 
             beneBirthDate: null,
             beneBirthMoment: null,
@@ -168,7 +168,8 @@ angular.module('testApp')
                 formData.startDateMoment,
                 formData.retireDateMoment,
                 formData.groupNum,
-                formData.veteranYears,
+                formData.yearsWorked,
+                formData.isVeteran,
                 formData.beneBirthMoment,
                 optionStr);
         }
@@ -262,7 +263,8 @@ angular.module('testApp')
                 startMoment          : formData.startDateMoment,
                 retireMoment         : formData.retireDateMoment,
                 groupNum             : formData.groupNum,
-                veteranYears         : formData.veteranYears,
+                yearsWorked          : formData.yearsWorked,
+                isVeteran            : formData.isVeteran,
                 beneBirthMoment      : formData.beneBirthMoment
             }
 

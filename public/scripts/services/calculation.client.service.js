@@ -85,11 +85,16 @@
                 }
             }
 
-            function getMaxAnnualPension (highestAverageSalary, years, retireAge_Years,
-                                          group, veteranYears) {
+            function getMaxAnnualPension(highestAverageSalary, yearsWorked,
+                                         retireAge_Years, group,
+                                         isVet) {
                 const ageFactor = getAgeFactor(retireAge_Years, group);
-                const baseMaxAnnualPension = ageFactor * years * highestAverageSalary;
-                return veteranYears < 20 ? baseMaxAnnualPension + veteranYears * 15 : baseMaxAnnualPension + 300;
+                const baseMaxAnnualPension = ageFactor * yearsWorked * highestAverageSalary;
+                if (isVet) {
+                  return yearsWorked < 20 ? baseMaxAnnualPension + yearsWorked * 15 : baseMaxAnnualPension + 300;
+                } else {
+                  return baseMaxAnnualPension;
+                }
             }
 
             /**
@@ -218,12 +223,14 @@
              * @param startMoment             long, Moment timestamp in seconds
              * @param retireMoment            long, Moment timestamp in seconds
              *
-             * @param groupNum              String, this employee's group number
-             * @param veteranYears          int, nullable, years served as a veteran
+             * @param groupNum                String, this employee's group number
+             * @param yearsWorked             int, years served in this institution
+             *
+             * @param isVeteran               boolean, is this person a veteran
              *
              * @param beneBirthMoment         long object, benefactor birth date.
              *
-             * @param retireOption          String, what type of retirement plan
+             * @param retireOption            String, what type of retirement plan
              *
              * @returns {*}                 either:
              *                              {"annualPension": number, "beneAnnualPension": number};
@@ -235,7 +242,7 @@
              */
             function getAnnualPension(highestAverageSalary,
                                       birthMoment, startMoment, retireMoment,
-                                      groupNum, veteranYears,
+                                      groupNum, yearsWorked, isVeteran,
                                       beneBirthMoment,
                                       retireOption) {
 
@@ -247,7 +254,7 @@
                 const groupEnum = convertGroupToEnum(groupNum);
 
                 const retireAge_Years = calcYearsBetween(birthMoment, retireMoment);
-                const yearsWorked = calcYearsBetween(startMoment, retireMoment);
+                // const yearsWorked = calcYearsBetween(startMoment, retireMoment);
 
                 // Check if eligible for retirement
                 if (!isEligibleForRetirement(startMoment, retireAge_Years, yearsWorked, groupEnum)) {
@@ -256,7 +263,7 @@
 
                 const maxAnnualPension = getMaxAnnualPension(
                     highestAverageSalary, yearsWorked, retireAge_Years,
-                    groupNum, veteranYears);
+                    groupNum, yearsWorked, isVeteran);
 
                 switch (optionEnum) {
                     case RetirementOption.A:
