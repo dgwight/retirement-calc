@@ -82,16 +82,31 @@ angular.module('testApp')
                     if (startDateObj.isAfter(endDateObj)) {
                         return {
                             ok: false,
-                            reason: "Sorry, you must be older than 36 to retire.\nPlease check the date or the Benefit Guide for more details."
+                            reason: "Please enter an end date tbat is after the start date!"
                         };
+                    }
+
+                    if (calcYearsBetween(scope.form.birthDateMoment, endDateObj) <= 36) {
+                      return {
+                        ok: false,
+                        reason: "Sorry, you must be at least 36 years old to retire.\nPlease check the date or the Benefit Guide for more details."
+                      };
                     }
                     return {ok: true};
                 }
             },
             {
                 alias: "step4",
-                title: "Step 4: Highest Salary",
+                title: "Step 4: Salary and Years Worked",
                 validate: function() {
+                    if (!scope.form.highestAverageSalary) {
+                        return {ok: false, reason: "Please enter a salary!"};
+                    }
+
+                    if (!scope.form.yearsWorked) {
+                        return {ok: false, reason: "Please enter the number of years you served!"};
+                    }
+
                     return {ok: true};
                 }
             },
@@ -99,6 +114,10 @@ angular.module('testApp')
                 alias: "step5",
                 title: "Step 5: Veteran Status",
                 validate: function() {
+                    if (scope.form.isVeteran === null) {
+                        return {ok: false, reason: "Please select an option!"};
+                    }
+
                     return {ok: true};
                 }
             },
@@ -153,7 +172,7 @@ angular.module('testApp')
         const progressStep = 100.0 / (stepData.length - 1);
         scope.stepTitle = stepData[0].title;
 
-        
+
         function transitionToNewTitle(done) {
             $('#step-form').animate({'opacity': 0}, 350, function () {
                 done();
@@ -213,17 +232,24 @@ angular.module('testApp')
             }
         }
 
-        scope.showError = false;
-        scope.topErrorMsg = "";
-        function clearErrors() {
-            scope.showError = false;
-            scope.topErrorMsg = "";
+        scope.errors = {}
+        scope.showError = function(stepNum) {
+            if (scope.errors.hasOwnProperty(stepNum)) {
+              return scope.errors[stepNum];
+            }
+            return null;
+        }
+
+        function clearErrorForStep(stepNum) {
+            if (scope.errors.hasOwnProperty(stepNum)) {
+              delete scope.errors[stepNum];
+            }
         }
 
         scope.forward = function () {
             const validationResults = stepData[scope.counter].validate();
             if (validationResults.ok) {
-                clearErrors();
+                clearErrorForStep(scope.counter);
 
                 if (scope.counter === 0) {
                     $('#calc-header').animate({'opacity': 0.4}, 350, function() {});
@@ -234,8 +260,7 @@ angular.module('testApp')
 
                 transitionToNewTitle(moveForward);
             }  else {
-                scope.showError = true;
-                scope.topErrorMsg = validationResults.reason;
+                scope.errors[scope.counter] = validationResults.reason;
                 console.log(validationResults.reason);
             }
         };
@@ -249,6 +274,16 @@ angular.module('testApp')
             }
             transitionToNewTitle(moveBackward);
         };
+
+      /**
+       * Calculates the rounded amount of years between two Moment timstamps
+       * @param MomentStart in seconds
+       * @param MomentEnd in seconds
+       * @returns {number}
+       */
+      function calcYearsBetween(MomentStart, MomentEnd) {
+        return Math.round(MomentEnd.diff(MomentStart, 'years', true));
+      }
 
         scope.yearsAgoString = function (years, format) {
             return moment().subtract(years, 'years').format(format);
