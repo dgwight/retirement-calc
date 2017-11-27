@@ -130,12 +130,18 @@ gulp.task('serve:prod', function() {
 });
 
 gulp.task('test', ['start:server:test'], function () {
-  var testToFiles = paths.testRequire.concat(paths.scripts, paths.test);
-  return gulp.src(testToFiles)
-    .pipe($.karma({
-      configFile: paths.karma,
-      action: 'watch'
-    }));
+    setTimeout(function() {
+      //////
+      var testToFiles = paths.testRequire.concat(paths.scripts, paths.test);
+      return gulp.src(testToFiles)
+        .pipe($.karma({
+          configFile: paths.karma,
+          action: 'run'
+        }));
+      /////
+      $.util.log(">>> testing hit timeout <<<");
+      return process.exit(22);
+    }, 5000);
 });
 
 ///////////
