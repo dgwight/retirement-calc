@@ -100,7 +100,7 @@ angular.module('testApp')
                 title: "Step 4: Salary and Years Worked",
                 validate: function() {
                     if (!scope.form.highestAverageSalary) {
-                        return {ok: false, reason: "Please enter a salary!"};
+                        return {ok: false, reason: "Please enter a valid salary!"};
                     }
 
                     if (!scope.form.yearsWorked) {
@@ -126,7 +126,8 @@ angular.module('testApp')
                 title: "Step 6: Beneficiary Information (Optional)",
                 validate: function() {
                     if (!scope.form.beneBirthDate) {
-                        return {ok: false, reason: "No end date specified!"};
+                        // Optional field
+                        return {ok: true};
                     }
 
                     const beneDateObj = moment(scope.form.beneBirthDate, "MMMM D, YYYY");
@@ -179,6 +180,12 @@ angular.module('testApp')
             }).animate({'opacity': 1}, 350);
         }
 
+        /**
+         * Calculates the annual pension results for the given option.
+         * @param optionStr
+         * @returns {{annualPension}|*}
+         * @throws error if calculation failed.
+         */
         function calcWithOption(optionStr) {
             let formData = scope.form;
             return CalculatorService.getAnnualPension(
@@ -195,11 +202,16 @@ angular.module('testApp')
 
         function calculateOptions() {
             const result = {};
-            result.optionA = calcWithOption("A");
-            result.optionB = calcWithOption("B");
-            if (scope.form.beneBirthDate) {
+            try {
+              result.optionA = calcWithOption("A");
+              result.optionB = calcWithOption("B");
+              if (scope.form.beneBirthDate) {
                 result.optionC = calcWithOption("C");
+              }
+            } catch (e) {
+              setErrorForStep(scope.counter, e.message);
             }
+
             console.log(result);
             return result;
         }
@@ -246,6 +258,11 @@ angular.module('testApp')
             }
         }
 
+        function setErrorForStep(stepNum, reason) {
+          scope.errors[stepNum] = reason;
+          console.log(reason);
+        }
+
         scope.forward = function () {
             const validationResults = stepData[scope.counter].validate();
             if (validationResults.ok) {
@@ -260,8 +277,7 @@ angular.module('testApp')
 
                 transitionToNewTitle(moveForward);
             }  else {
-                scope.errors[scope.counter] = validationResults.reason;
-                console.log(validationResults.reason);
+                setErrorForStep(scope.counter, validationResults.reason);
             }
         };
 
