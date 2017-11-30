@@ -121,20 +121,13 @@
              * @returns {number}
              */
             function calcOptionC(maxPension, retireAge_Years, beneficiaryAge_Years) {
-                let percentOff;
-                // TODO ask if this logic is what the client means.
-                if (65 <= retireAge_Years && beneficiaryAge_Years <= 55) {
-                    percentOff = 0.06;
-                } else if (65 <= retireAge_Years && beneficiaryAge_Years <= 65) {
-                    percentOff = 0.16;
-                } else if (70 <= retireAge_Years && beneficiaryAge_Years <= 65) {
-                    percentOff = 0.11;
-                } else if (70 <= retireAge_Years && beneficiaryAge_Years <= 70) {
-                    percentOff = 0.17;
-                } else {
-                    percentOff = 0.14;
-                }
-                return maxPension * (1.0 - percentOff);
+                let percent;
+
+                $.getJSON( "optionC.json", function( data ) {
+                  percent = data[retireAge_Years - 1][beneficiaryAge_Years - 1];
+                });
+
+                return maxPension * percent;
             }
 
             /**
@@ -274,7 +267,7 @@
             }
 
             /**
-             * 
+             *
              * @param calculation       The calculation object
              */
             function createCalculation(calculation) {
