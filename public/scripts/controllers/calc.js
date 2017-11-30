@@ -111,31 +111,6 @@ angular.module('testApp')
                 }
             },
             {
-                alias: "step5",
-                title: "Step 5: Veteran Status",
-                validate: function() {
-                    if (scope.form.isVeteran === null) {
-                        return {ok: false, reason: "Please select an option!"};
-                    }
-
-                    return {ok: true};
-                }
-            },
-            {
-                alias: "step6",
-                title: "Step 6: Beneficiary Information (Optional)",
-                validate: function() {
-                    if (!scope.form.beneBirthDate) {
-                        // Optional field
-                        return {ok: true};
-                    }
-
-                    const beneDateObj = moment(scope.form.beneBirthDate, "MMMM D, YYYY");
-                    scope.form.beneBirthMoment = beneDateObj;
-                    return {ok: true};
-                }
-            },
-            {
                 alias: "results",
                 title: "All set! Here are your estimates...",
                 validate: function() {
