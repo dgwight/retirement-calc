@@ -203,10 +203,10 @@ angular.module('testApp')
         function calculateOptions() {
             const result = {};
             try {
-              result.optionA = calcWithOption("A");
-              result.optionB = calcWithOption("B");
+              result.optionA = Math.round(calcWithOption("A"));
+              result.optionB = Math.round(calcWithOption("B"));
               if (scope.form.beneBirthDate) {
-                result.optionC = calcWithOption("C");
+                result.optionC = Math.round(calcWithOption("C"));
               }
             } catch (e) {
               setErrorForStep(scope.counter, e.message);
