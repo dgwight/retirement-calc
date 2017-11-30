@@ -245,6 +245,7 @@
     </div>
 
     <fieldset ng-show="counter > 0">
+        <input type="submit" name="next" ng-click="forward()" style="display: none;" />
         <button ng-show="counter >= 1"
                 ng-click="backward()"
                 class="ma__button ma__button--minor ma__button--small">
