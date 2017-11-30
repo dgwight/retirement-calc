@@ -73,22 +73,38 @@
                 }
             }
 
-            function getAgeFactor(retireAge_Years, group) {
+            function getAgeFactor(retireAge_Years, group, startMoment) {
                 const weightedAge = getWeightedRetirementAge(retireAge_Years, group);
 
-                if (weightedAge >= 67) {
-                    return 0.025;
-                } else if (weightedAge >= 60) {
-                    return ((0.125 * weightedAge ) - 5.875) / 100.0;
-                } else {
-                    return 0;
+                let secondPolicyDate = new Date("4/2/2012").getTime();
+                let isFirstPolicy =  dateOfStartEmployment < secondPolicyDate;
+
+                if (isFirstPolicy) {
+                  if (weightedAge >= 65) {
+                      return 0.025;
+                  } else if (weightedAge <= 55) {
+                      return 0.015;
+                  } else if (weightedAge > 55 && weightedAge < 65) {
+                      return (weightedAge - 50) / 10 + 1;
+                  }
                 }
+                else {
+                  if (weightedAge >= 67) {
+                      return 0.025;
+                  } else if (weightedAge >= 60) {
+                      return ((0.125 * weightedAge ) - 5.875) / 100.0;
+                  } else {
+                      return 0;
+                  }
+                }
+
+
             }
 
             function getMaxAnnualPension(highestAverageSalary, yearsWorked,
                                          retireAge_Years, group,
-                                         isVet) {
-                const ageFactor = getAgeFactor(retireAge_Years, group);
+                                         isVet, startMoment) {
+                const ageFactor = getAgeFactor(retireAge_Years, group, startMoment);
                 const baseMaxAnnualPension = ageFactor * yearsWorked * highestAverageSalary;
                 if (isVet) {
                   return yearsWorked < 20 ? baseMaxAnnualPension + yearsWorked * 15 : baseMaxAnnualPension + 300;
@@ -263,7 +279,7 @@
 
                 const maxAnnualPension = getMaxAnnualPension(
                     highestAverageSalary, yearsWorked, retireAge_Years,
-                    groupNum, isVeteran);
+                    groupNum, isVeteran, startMoment);
 
                 switch (optionEnum) {
                     case RetirementOption.A:
