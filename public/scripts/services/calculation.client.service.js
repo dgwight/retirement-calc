@@ -135,7 +135,7 @@
                   beneficiary = 90;
                 }
 
-                var data = JSON.parse('');
+                var data = JSON.parse('');  // ADD IN JSON
 
 
               return annualPension * data[retire - 1][beneficiary.toString()];
