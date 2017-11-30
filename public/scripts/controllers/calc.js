@@ -80,6 +80,7 @@ angular.module('testApp')
 
                     const endDateObj = moment(scope.form.endDate, "MMMM D, YYYY");
                     scope.form.retireDateMoment = endDateObj;
+                    scope.oldCalc = startDateObj.isBefore(moment("4-2-2012", "MM-DD-YYYY"));
 
                     if (startDateObj.isAfter(endDateObj)) {
                         return {

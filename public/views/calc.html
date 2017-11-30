@@ -107,8 +107,8 @@
         </div>
         <div class="animate-switch" ng-switch-when="step3">
             <div class="ma__form-page">
-                <fieldset ng-show="showError(counter)">
-                    <div class="ma__error-msg" ng-show="showError(counter)">{{showError(counter)}}</div>
+                <fieldset>
+                    <div ng-show="showError(counter)" class="ma__error-msg" ng-show="showError(counter)">{{showError(counter)}}</div>
                     <label for="startDate" class="ma__label ma__label--required">Estimated Employment Start Date</label>
                     <input id="startDate"
                            class="ma__input-date"
@@ -128,19 +128,17 @@
         </div>
         <div class="animate-switch" ng-switch-when="step4">
             <div class="ma__form-page">
-                <fieldset ng-show="showError(counter)">
-                    <div class="ma__error-msg" ng-show="showError(counter)">{{showError(counter)}}</div>
-                    <label for="highestPay">Highest Pay in Period (This text needs to change depending on start
-                        date)</label>
+                <fieldset>
+                    <div ng-show="showError(counter)" class="ma__error-msg" ng-show="showError(counter)">{{showError(counter)}}</div>
+                    <label ng-show="oldCalc" for="highestPay">Estimated average of your highest thirty-six consecutive months of annual regular compensation.</label>
+                    <label ng-hide="oldCalc" for="highestPay">Estimated average of your highest sixty consecutive months of annual regular compensation.</label>
                     <input id="highestPay"
                            ng-model="form.highestAverageSalary"
                            type="number"
                            placeholder="Dollar amount"
-                           min="0" />
+                           min="0"
+                           step="1000"/>
                     <div class="clear"></div>
-                    <label for="highestPay" class="ma__helper-text">
-                        Estimated average of your highest thirty-six consecutive months of annual regular compensation.
-                    </label>
                 </fieldset>
 
                 <fieldset>
