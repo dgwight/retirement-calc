@@ -85,7 +85,13 @@
                   } else if (weightedAge <= 55) {
                       return 0.015 - weightedAge / 10000;
                   } else {
-                      return (weightedAge - 50) / 10 + 1;
+                    var factor = (weightedAge - 50) / 10 + 1;
+                    if (factor < 0) {
+                      return 0;
+                    }
+                    else {
+                      return factor;
+                    }
                   }
                 }
                 else if (yearsWorked >= 30) {
