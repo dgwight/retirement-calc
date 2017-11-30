@@ -12,6 +12,8 @@ angular.module('testApp')
         var scope = $scope;
 
         const retireMinAge = 36;
+        const minAge = 18;
+
         let stepData = [
             {
                 alias: "agree",
@@ -28,13 +30,13 @@ angular.module('testApp')
                         return {ok: false, reason: "No birth date specified!"};
                     }
                     const birthDateMoment = moment(scope.form.birthDate);
-                    const minBirthDate = moment().subtract(retireMinAge, 'years');
+                    const minBirthDate = moment().subtract(minAge, 'years');
                     scope.form.birthDateMoment = birthDateMoment;
 
                     if (birthDateMoment.isAfter(minBirthDate)) {
                         return {
                             ok: false,
-                            reason: "Sorry, your age entered is less than the minimum age of 36.\nPlease check the date or the Benefit Guide for more details."
+                            reason: "Sorry, your age entered is less than the minimum age of 18.\nPlease check the date or the Benefit Guide for more details."
                         };
                     }
 
@@ -86,7 +88,7 @@ angular.module('testApp')
                         };
                     }
 
-                    if (calcYearsBetween(scope.form.birthDateMoment, endDateObj) <= 36) {
+                    if (calcYearsBetween(scope.form.birthDateMoment, endDateObj) <= retireMinAge) {
                       return {
                         ok: false,
                         reason: "Sorry, you must be at least 36 years old to retire.\nPlease check the date or the Benefit Guide for more details."
@@ -133,12 +135,11 @@ angular.module('testApp')
 
             highestAverageSalary: null,
 
-            isVeteran: null,
+            isVeteran: false,
             yearsWorked: null,
 
             beneBirthDate: null,
             beneBirthMoment: null,
-
         };
 
         scope.max = stepData.length - 1;
@@ -292,17 +293,17 @@ angular.module('testApp')
                 yearsWorked          : formData.yearsWorked,
                 isVeteran            : formData.isVeteran,
                 beneBirthMoment      : formData.beneBirthMoment
-            }
+            };
 
             console.log(calculation);
 
             CalculatorService
                 .createCalculation(calculation)
                 .then(function(calculationId) {
-                    console.log(calculationId)
-                    var baseLink = location.host + "/calculation/"
+                    console.log(calculationId);
+                    var baseLink = location.host + "/calculation/";
                     scope.saveLink = baseLink + calculationId.data;
                 });
-        }
+        };
 
     }]);

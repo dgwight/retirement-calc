@@ -41,8 +41,8 @@
         <div class="animate-switch" ng-switch-when="step1">
             <div class="ma__form-page">
                 <fieldset id="dob">
-                    <label for="dob-input" class="ma__label ma__label--required">Date of Birth</label>
                     <div class="ma__error-msg" ng-show="showError(counter)">{{showError(counter)}}</div>
+                    <label for="dob-input" class="ma__label ma__label--required">Date of Birth</label>
                     <input id="dob-input"
                            class="ma__input-date"
                            type="date"
@@ -109,17 +109,14 @@
             <div class="ma__form-page">
                 <fieldset ng-show="showError(counter)">
                     <div class="ma__error-msg" ng-show="showError(counter)">{{showError(counter)}}</div>
-                </fieldset>
-                <fieldset>
-                    <label for="startDate" class="ma__label ma__label--required">Employment Start Date</label>
+                    <label for="startDate" class="ma__label ma__label--required">Estimated Employment Start Date</label>
                     <input id="startDate"
                            class="ma__input-date"
                            type="date"
                            ng-model="form.startDate">
                 </fieldset>
-
                 <fieldset>
-                    <label for="endDate" class="ma__label ma__label--required">Employment End Date</label>
+                    <label for="endDate" class="ma__label ma__label--required">Estimated Employment End Date</label>
                     <input id="endDate"
                            class="ma__input-date"
                            type="date"
@@ -133,8 +130,6 @@
             <div class="ma__form-page">
                 <fieldset ng-show="showError(counter)">
                     <div class="ma__error-msg" ng-show="showError(counter)">{{showError(counter)}}</div>
-                </fieldset>
-                <fieldset>
                     <label for="highestPay">Highest Pay in Period (This text needs to change depending on start
                         date)</label>
                     <input id="highestPay"
@@ -157,8 +152,8 @@
                            ng-model="form.yearsWorked"/>
                 </fieldset>
                 <fieldset>
-                    <label class="ma__label ma__label--required">Are you a military veteran?</label>
                     <div class="ma__error-msg" ng-show="showError(counter)">{{showError(counter)}}</div>
+                    <label class="ma__label ma__label--required">Are you a military veteran?</label>
                     <div class="ma__input-group__items ma__input-group__items--inline">
                         <div class="ma__input-group__item">
                         <span class="ma__input-radio">
