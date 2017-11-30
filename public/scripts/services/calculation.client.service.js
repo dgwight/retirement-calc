@@ -113,6 +113,8 @@
                 return maxPension * (1.0 - percentOff);
             }
 
+            var maybe;
+
             /**
              * Used for calculating pension for Option C
              * @param maxPension
@@ -121,13 +123,22 @@
              * @returns {number}
              */
             function calcOptionC(maxPension, retireAge_Years, beneficiaryAge_Years) {
-                let percent;
 
-                $.getJSON( "optionC.json", function( data ) {
-                  percent = data[retireAge_Years - 1][beneficiaryAge_Years - 1];
-                });
+                var retire = retireAge_Years;
+                var beneficiary = beneficiaryAge_Years;
 
-                return maxPension * percent;
+                if (retireAge_Years > 90) {
+                  retire = 90;
+                }
+
+                if (beneficiaryAge_Years > 90) {
+                  beneficiary = 90;
+                }
+
+                var data = JSON.parse('');
+
+
+              return annualPension * data[retire - 1][beneficiary.toString()];
             }
 
             /**
