@@ -263,7 +263,7 @@
 
                 const maxAnnualPension = getMaxAnnualPension(
                     highestAverageSalary, yearsWorked, retireAge_Years,
-                    groupNum, yearsWorked, isVeteran);
+                    groupNum, isVeteran);
 
                 switch (optionEnum) {
                     case RetirementOption.A:
