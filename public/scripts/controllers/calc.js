@@ -82,16 +82,31 @@ angular.module('testApp')
                     if (startDateObj.isAfter(endDateObj)) {
                         return {
                             ok: false,
-                            reason: "Sorry, you must be older than 36 to retire.\nPlease check the date or the Benefit Guide for more details."
+                            reason: "Please enter an end date tbat is after the start date!"
                         };
+                    }
+
+                    if (calcYearsBetween(scope.form.birthDateMoment, endDateObj) <= 36) {
+                      return {
+                        ok: false,
+                        reason: "Sorry, you must be at least 36 years old to retire.\nPlease check the date or the Benefit Guide for more details."
+                      };
                     }
                     return {ok: true};
                 }
             },
             {
                 alias: "step4",
-                title: "Step 4: Highest Salary",
+                title: "Step 4: Salary and Years Worked",
                 validate: function() {
+                    if (!scope.form.highestAverageSalary) {
+                        return {ok: false, reason: "Please enter a valid salary!"};
+                    }
+
+                    if (!scope.form.yearsWorked) {
+                        return {ok: false, reason: "Please enter the number of years you served!"};
+                    }
+
                     return {ok: true};
                 }
             },
@@ -99,6 +114,10 @@ angular.module('testApp')
                 alias: "step5",
                 title: "Step 5: Veteran Status",
                 validate: function() {
+                    if (scope.form.isVeteran === null) {
+                        return {ok: false, reason: "Please select an option!"};
+                    }
+
                     return {ok: true};
                 }
             },
@@ -107,7 +126,8 @@ angular.module('testApp')
                 title: "Step 6: Beneficiary Information (Optional)",
                 validate: function() {
                     if (!scope.form.beneBirthDate) {
-                        return {ok: false, reason: "No end date specified!"};
+                        // Optional field
+                        return {ok: true};
                     }
 
                     const beneDateObj = moment(scope.form.beneBirthDate, "MMMM D, YYYY");
@@ -139,7 +159,7 @@ angular.module('testApp')
             highestAverageSalary: null,
 
             isVeteran: null,
-            veteranYears: null,
+            yearsWorked: null,
 
             beneBirthDate: null,
             beneBirthMoment: null,
@@ -153,13 +173,19 @@ angular.module('testApp')
         const progressStep = 100.0 / (stepData.length - 1);
         scope.stepTitle = stepData[0].title;
 
-        
+
         function transitionToNewTitle(done) {
             $('#step-form').animate({'opacity': 0}, 350, function () {
                 done();
             }).animate({'opacity': 1}, 350);
         }
 
+        /**
+         * Calculates the annual pension results for the given option.
+         * @param optionStr
+         * @returns {{annualPension}|*}
+         * @throws error if calculation failed.
+         */
         function calcWithOption(optionStr) {
             let formData = scope.form;
             return CalculatorService.getAnnualPension(
@@ -168,18 +194,24 @@ angular.module('testApp')
                 formData.startDateMoment,
                 formData.retireDateMoment,
                 formData.groupNum,
-                formData.veteranYears,
+                formData.yearsWorked,
+                formData.isVeteran,
                 formData.beneBirthMoment,
                 optionStr);
         }
 
         function calculateOptions() {
             const result = {};
-            result.optionA = calcWithOption("A");
-            result.optionB = calcWithOption("B");
-            if (scope.form.beneBirthDate) {
+            try {
+              result.optionA = calcWithOption("A");
+              result.optionB = calcWithOption("B");
+              if (scope.form.beneBirthDate) {
                 result.optionC = calcWithOption("C");
+              }
+            } catch (e) {
+              setErrorForStep(scope.counter, e.message);
             }
+
             console.log(result);
             return result;
         }
@@ -212,17 +244,29 @@ angular.module('testApp')
             }
         }
 
-        scope.showError = false;
-        scope.topErrorMsg = "";
-        function clearErrors() {
-            scope.showError = false;
-            scope.topErrorMsg = "";
+        scope.errors = {}
+        scope.showError = function(stepNum) {
+            if (scope.errors.hasOwnProperty(stepNum)) {
+              return scope.errors[stepNum];
+            }
+            return null;
+        }
+
+        function clearErrorForStep(stepNum) {
+            if (scope.errors.hasOwnProperty(stepNum)) {
+              delete scope.errors[stepNum];
+            }
+        }
+
+        function setErrorForStep(stepNum, reason) {
+          scope.errors[stepNum] = reason;
+          console.log(reason);
         }
 
         scope.forward = function () {
             const validationResults = stepData[scope.counter].validate();
             if (validationResults.ok) {
-                clearErrors();
+                clearErrorForStep(scope.counter);
 
                 if (scope.counter === 0) {
                     $('#calc-header').animate({'opacity': 0.4}, 350, function() {});
@@ -233,9 +277,7 @@ angular.module('testApp')
 
                 transitionToNewTitle(moveForward);
             }  else {
-                scope.showError = true;
-                scope.topErrorMsg = validationResults.reason;
-                console.log(validationResults.reason);
+                setErrorForStep(scope.counter, validationResults.reason);
             }
         };
 
@@ -248,6 +290,16 @@ angular.module('testApp')
             }
             transitionToNewTitle(moveBackward);
         };
+
+      /**
+       * Calculates the rounded amount of years between two Moment timstamps
+       * @param MomentStart in seconds
+       * @param MomentEnd in seconds
+       * @returns {number}
+       */
+      function calcYearsBetween(MomentStart, MomentEnd) {
+        return Math.round(MomentEnd.diff(MomentStart, 'years', true));
+      }
 
         scope.yearsAgoString = function (years, format) {
             return moment().subtract(years, 'years').format(format);
@@ -262,7 +314,8 @@ angular.module('testApp')
                 startMoment          : formData.startDateMoment,
                 retireMoment         : formData.retireDateMoment,
                 groupNum             : formData.groupNum,
-                veteranYears         : formData.veteranYears,
+                yearsWorked          : formData.yearsWorked,
+                isVeteran            : formData.isVeteran,
                 beneBirthMoment      : formData.beneBirthMoment
             }
 
