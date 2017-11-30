@@ -63,7 +63,7 @@
             function getWeightedRetirementAge(retireAge_Years, group) {
                 switch (group) {
                     case "1":
-                        return retireAge_Years + 5.0;
+                        return retireAge_Years;
                     case "2":
                         return retireAge_Years + 5.0;
                     case "4":
@@ -281,7 +281,7 @@
             }
 
             /**
-             * 
+             *
              * @param calculation       The calculation object
              */
             function createCalculation(calculation) {
