@@ -27,11 +27,11 @@ angular.module('testApp')
                     if (!scope.form.birthDate) {
                         return {ok: false, reason: "No birth date specified!"};
                     }
-                    const birthDate = moment(scope.form.birthDate, "MMMM D, YYYY");
+                    const birthDateMoment = moment(scope.form.birthDate);
                     const minBirthDate = moment().subtract(retireMinAge, 'years');
-                    scope.form.birthDateMoment = birthDate;
+                    scope.form.birthDateMoment = birthDateMoment;
 
-                    if (birthDate.isAfter(minBirthDate)) {
+                    if (birthDateMoment.isAfter(minBirthDate)) {
                         return {
                             ok: false,
                             reason: "Sorry, your age entered is less than the minimum age of 36.\nPlease check the date or the Benefit Guide for more details."

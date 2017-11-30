@@ -364,6 +364,12 @@ h2 {
   }
 }
 
+.ma__input-date[type=date] {
+  background-image: url(../images/date-picker.svg);
+  background-position: right 8px top 7px;
+  background-repeat: no-repeat;
+}
+
 ///* Responsive: Portrait tablets and up */
 //@media screen and (min-width: 768px) {
 //  .container {
