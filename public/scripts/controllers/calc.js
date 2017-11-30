@@ -85,7 +85,7 @@ angular.module('testApp')
                     if (startDateObj.isAfter(endDateObj)) {
                         return {
                             ok: false,
-                            reason: "Please enter an end date tbat is after the start date!"
+                            reason: "Please enter an end date that is after the start date!"
                         };
                     }
 
