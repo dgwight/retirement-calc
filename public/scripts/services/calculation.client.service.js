@@ -73,22 +73,24 @@
                 }
             }
 
-            function getAgeFactor(retireAge_Years, group, startMoment) {
+            function getAgeFactor(retireAge_Years, group, startMoment, yearsWorked) {
                 const weightedAge = getWeightedRetirementAge(retireAge_Years, group);
 
                 let secondPolicyDate = new Date("4/2/2012").getTime();
-                let isFirstPolicy =  dateOfStartEmployment < secondPolicyDate;
+                let isFirstPolicy =  startMoment < secondPolicyDate;
 
                 if (isFirstPolicy) {
+                  console.log("Here");
+                  console.log(weightedAge);
                   if (weightedAge >= 65) {
                       return 0.025;
                   } else if (weightedAge <= 55) {
                       return 0.015;
-                  } else if (weightedAge > 55 && weightedAge < 65) {
+                  } else {
                       return (weightedAge - 50) / 10 + 1;
                   }
                 }
-                else {
+                else if (yearsWorked >= 30) {
                   if (weightedAge >= 67) {
                       return 0.025;
                   } else if (weightedAge >= 60) {
@@ -104,7 +106,7 @@
             function getMaxAnnualPension(highestAverageSalary, yearsWorked,
                                          retireAge_Years, group,
                                          isVet, startMoment) {
-                const ageFactor = getAgeFactor(retireAge_Years, group, startMoment);
+                const ageFactor = getAgeFactor(retireAge_Years, group, startMoment, yearsWorked);
                 const baseMaxAnnualPension = ageFactor * yearsWorked * highestAverageSalary;
                 if (isVet) {
                   return yearsWorked < 20 ? baseMaxAnnualPension + yearsWorked * 15 : baseMaxAnnualPension + 300;
