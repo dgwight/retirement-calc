@@ -80,12 +80,10 @@
                 let isFirstPolicy =  startMoment < secondPolicyDate;
 
                 if (isFirstPolicy) {
-                  console.log("Here");
-                  console.log(weightedAge);
                   if (weightedAge >= 65) {
                       return 0.025;
                   } else if (weightedAge <= 55) {
-                      return 0.015;
+                      return 0.015 - weightedAge / 10000;
                   } else {
                       return (weightedAge - 50) / 10 + 1;
                   }
