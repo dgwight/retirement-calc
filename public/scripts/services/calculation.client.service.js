@@ -99,6 +99,15 @@
                       return 0;
                   }
                 }
+                else {
+                  if (weightedAge >= 67) {
+                      return 0.025;
+                  } else if (weightedAge >= 60) {
+                      return .0145 + (weightedAge - 60) * .0015;
+                  } else {
+                      return 0;
+                  }
+                }
 
 
             }
