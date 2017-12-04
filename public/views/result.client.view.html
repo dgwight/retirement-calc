@@ -1,0 +1,30 @@
+<div id="calc-header" class="ma__page-header__content">
+    <img src="../images/mass-logo.png" alt="Mass.gov" width="164">
+    <h1 class="ma__page-header__title">MA State Pension Results</h1>
+</div>
+
+<div class="progress">
+    <div class="progress-bar"
+         role="progressbar"
+         style="width: 100%"
+         aria-valuenow="100"
+         aria-valuemin="0"
+         aria-valuemax="100"></div>
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <h2>Option A - No Survivor Benefit</h2>
+        <h3>${{ results.optionA.annualPension }} Annualy</h3>
+    </div>
+    <div class="col-sm-4">
+        <h2>Option B - Protects Your Annuity</h2>
+        <h3>${{ results.optionB.annualPension }} Annualy</h3>
+    </div>
+    <div class="col-sm-4" ng-show="results.optionC">
+        <h2>Option C - Joint Survivor Allowance</h2>
+        <h3>${{ results.optionC.annualPension }} Annualy</h3>
+
+        <!-- <h3>{{ results.optionC.annualPension ? "N/A" : "$"+results.optionC.annualPension+" Annually"}} </h3> -->
+    </div>
+</div>
