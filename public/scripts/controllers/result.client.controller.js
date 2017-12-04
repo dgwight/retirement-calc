@@ -7,6 +7,7 @@
 angular.module('testApp')
     .controller('ResultCtrl', ["$scope", "$location", "$routeParams", "ResultService", "CalculatorService", function ($scope, $location, $routeParams, ResultService, CalculatorService) {
         var scope = $scope;
+        scope.return_url = $location.absUrl();
         
         const resultId = $routeParams['resultId'];
         
