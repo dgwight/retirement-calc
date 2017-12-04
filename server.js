@@ -19,15 +19,16 @@ var connectionString = 'mongodb://localhost/pension';
 if(process.env.MONGODB_URI) {                       // check if running remotely
     var connectionString = process.env.MONGODB_URI;
 }
-// mongoose.connect(connectionString);
+
+mongoose.connect(connectionString);
 var db = mongoose.connection;
 
 // ----------------------------------- ROUTES ----------------------------------
-var calculation = require('./routes/calculation')
-app.use('/calculation', calculation)
+var result = require('./routes/result')
+app.use('/result', result)
 
 // -------------------------------- START SERVER -------------------------------
 app.listen(process.env.PORT || 3000);
-console.log('PENSION MASTER listening on port 3000!')
+console.log('PENSION listening on port 3000')
 
 //module.exports = app;

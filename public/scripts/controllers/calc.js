@@ -8,7 +8,7 @@
  * Controller of the testApp
  */
 angular.module('testApp')
-    .controller('CalcCtrl', ["$scope", "CalculatorService", function ($scope, CalculatorService) {
+    .controller('CalcCtrl', ["$scope", "$location", "CalculatorService", "ResultService", function ($scope, $location, CalculatorService, ResultService) {
         var scope = $scope;
 
         const retireMinAge = 36;
@@ -285,10 +285,10 @@ angular.module('testApp')
             return moment().subtract(years, 'years').format(format);
         };
 
-        scope.createCalculation = function () {
+        scope.saveCalculation = function () {
             let formData = scope.form;
 
-            var calculation = {
+            var result = {
                 highestAverageSalary : formData.highestAverageSalary,
                 birthMoment          : formData.birthDateMoment,
                 startMoment          : formData.startDateMoment,
@@ -299,14 +299,11 @@ angular.module('testApp')
                 beneBirthMoment      : formData.beneBirthMoment
             };
 
-            console.log(calculation);
-
-            CalculatorService
-                .createCalculation(calculation)
-                .then(function(calculationId) {
-                    console.log(calculationId);
-                    var baseLink = location.host + "/calculation/";
-                    scope.saveLink = baseLink + calculationId.data;
+            // Create the result and redirect the user to the saved result page
+            ResultService
+                .createResult(result)
+                .then(function(resultId) {
+                    $location.path(`/${resultId.data}`);
                 });
         };
 
