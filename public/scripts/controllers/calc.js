@@ -40,6 +40,9 @@ angular.module('testApp')
                         };
                     }
 
+                    const beneBirthMoment = moment(scope.form.beneBirthDate);
+                    scope.form.beneBirthMoment = beneBirthMoment;
+
                     return {ok: true};
                 }
             },
