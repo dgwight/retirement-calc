@@ -218,13 +218,6 @@
         </div>
     </div>
 
-    <div ng-show="saveLink" class="alert alert-success" role="alert">
-        <h4 class="alert-heading">Calculation Saved!</h4>
-        <p>Please save the link below. If you lose it you will lose access to this calculation forever!</p>
-        <hr>
-        <p class="mb-0"><strong><a href="{{saveLink}}"></a>{{saveLink}}</strong></p>
-    </div>
-
     <fieldset ng-show="counter > 0">
         <input type="submit" name="next" ng-click="forward()" style="display: none;" />
         <button ng-show="counter >= 1"
@@ -243,7 +236,7 @@
             Start Over
         </button>
         <button ng-show="counter == max"
-            ng-click="createCalculation()"
+            ng-click="saveCalculation()"
             class="ma__button ma__button--small">
             Save This Calculation.
         </button>

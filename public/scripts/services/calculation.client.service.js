@@ -3,7 +3,7 @@
 (function () {
     angular
         .module("testApp")
-        .factory("CalculatorService", function ($http) {
+        .factory("CalculatorService", function () {
 
             /**
              * Represents an enumeration for all retirement plan options.
@@ -34,7 +34,6 @@
 
             return {
                 "getAnnualPension": getAnnualPension,
-                "createCalculation": createCalculation
             };
 
             function initEnums() {
@@ -191,6 +190,10 @@
              * @returns {boolean}
              */
             function isEligibleForRetirement(dateOfStartEmployment, retirementAge_Years, yearsWorked, employeeGroup) {
+                console.log('1', dateOfStartEmployment);
+                console.log('2', retirementAge_Years);
+                console.log('3', yearsWorked);
+                console.log('4', employeeGroup);
                 let secondPolicyDate = new Date("4/2/2012").getTime();
                 let isFirstPolicy =  dateOfStartEmployment < secondPolicyDate;
                 if (isFirstPolicy) {
@@ -249,6 +252,8 @@
              * @returns {number}
              */
             function calcYearsBetween(MomentStart, MomentEnd) {
+                console.log('momS', MomentStart)
+                console.log('momE', MomentEnd)
                 return Math.round(MomentEnd.diff(MomentStart, 'years', true));
             }
 
