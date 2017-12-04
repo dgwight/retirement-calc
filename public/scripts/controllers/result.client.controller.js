@@ -26,7 +26,6 @@ angular.module('testApp')
          */
         function calcWithOption(optionStr) {
             let formData = scope.result;
-            console.log(formData);
             return CalculatorService.getAnnualPension(
                 formData.highestAverageSalary,
                 moment(formData.birthMoment),
@@ -51,7 +50,6 @@ angular.module('testApp')
                 console.log(e);
             //   setErrorForStep(scope.counter, e.message);
             }
-            console.log(result);
 
             return result;
         }            

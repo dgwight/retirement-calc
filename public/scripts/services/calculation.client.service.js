@@ -328,7 +328,6 @@
              * @param calculation       The calculation object
              */
             function createCalculation(calculation) {
-                console.log(calculation);
                 var url = "/calculation";
                 return $http.post(url, calculation);
             }
