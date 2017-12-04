@@ -41,21 +41,26 @@
         <div class="animate-switch" ng-switch-when="step1">
             <div class="ma__form-page">
                 <fieldset id="dob">
-                    <label for="dob-input" class="ma__label ma__label--required">Date of Birth</label>
                     <div class="ma__error-msg" ng-show="showError(counter)">{{showError(counter)}}</div>
+                    <label for="dob-input" class="ma__label ma__label--required">Date of Birth</label>
                     <input id="dob-input"
                            class="ma__input-date"
-                           moment-picker="form.birthDate"
-                           type="text"
-                           format="DD/MM/YYYY"
-                           max-view="month"
-                           start-view="decade"
-                           min-date="yearsAgoString(120, 'DD/MM/YYYY')"
-                           max-date="yearsAgoString(36, 'DD/MM/YYYY')"
-                           set-on-select="true"
-                           placeholder="Choose a date..."
+                           type="date"
                            ng-model="form.birthDate">
-                    </input>
+                </fieldset>
+                <fieldset>
+                    <label for="beneBirthDate" class="ma__label ma__label--required">Beneficiary Date of Birth (Optional)</label>
+                    <input id="beneBirthDate"
+                           class="ma__input-date"
+                           type="date"
+                           ng-model="form.beneBirthDate">
+                    <div class="clear"></div>
+                    <label class="ma__helper-text">
+                        If you are interested in estimating your benefits under Option C, enter your beneficiary's age
+                        on the birthdays that are closest to your date of retirement.
+                        <br/><strong>Reminder: Your Option C beneficiary must be your spouse, child, sibling, parent or
+                        former spouse who has not remarried.</strong>
+                    </label>
                 </fieldset>
             </div>
         </div>
@@ -102,41 +107,20 @@
         </div>
         <div class="animate-switch" ng-switch-when="step3">
             <div class="ma__form-page">
-                <fieldset ng-show="showError(counter)">
-                    <div class="ma__error-msg" ng-show="showError(counter)">{{showError(counter)}}</div>
-                </fieldset>
                 <fieldset>
-                    <label for="startDate" class="ma__label ma__label--required">Employment Start Date</label>
+                    <div ng-show="showError(counter)" class="ma__error-msg" ng-show="showError(counter)">{{showError(counter)}}</div>
+                    <label for="startDate" class="ma__label ma__label--required">Estimated Employment Start Date</label>
                     <input id="startDate"
                            class="ma__input-date"
-                           moment-picker="form.startDate"
-                           type="text"
-                           format="MMMM YYYY"
-                           max-view="year"
-                           start-view="decade"
-                           min-date="''"
-                           max-date="''"
-                           set-on-select="true"
-                           placeholder="Choose a date..."
+                           type="date"
                            ng-model="form.startDate">
-                    </input>
                 </fieldset>
-
                 <fieldset>
-                    <label for="endDate" class="ma__label ma__label--required">Employment End Date</label>
+                    <label for="endDate" class="ma__label ma__label--required">Estimated Employment End Date</label>
                     <input id="endDate"
                            class="ma__input-date"
-                           moment-picker="form.endDate"
-                           type="text"
-                           format="MMMM YYYY"
-                           max-view="year"
-                           start-view="decade"
-                           min-date="''"
-                           max-date="''"
-                           set-on-select="true"
-                           placeholder="Choose a date..."
+                           type="date"
                            ng-model="form.endDate">
-                    </input>
                     <div class="clear"></div>
                     <label for="endDate" class="ma__helper-text">Your projected date of retirement.</label>
                 </fieldset>
@@ -144,21 +128,17 @@
         </div>
         <div class="animate-switch" ng-switch-when="step4">
             <div class="ma__form-page">
-                <fieldset ng-show="showError(counter)">
-                    <div class="ma__error-msg" ng-show="showError(counter)">{{showError(counter)}}</div>
-                </fieldset>
                 <fieldset>
-                    <label for="highestPay">Highest Pay in Period (This text needs to change depending on start
-                        date)</label>
+                    <div ng-show="showError(counter)" class="ma__error-msg" ng-show="showError(counter)">{{showError(counter)}}</div>
+                    <label ng-show="oldCalc" for="highestPay">Estimated average of your highest thirty-six consecutive months of annual regular compensation.</label>
+                    <label ng-hide="oldCalc" for="highestPay">Estimated average of your highest sixty consecutive months of annual regular compensation.</label>
                     <input id="highestPay"
                            ng-model="form.highestAverageSalary"
                            type="number"
                            placeholder="Dollar amount"
-                           min="0" />
+                           min="0"
+                           step="1000"/>
                     <div class="clear"></div>
-                    <label for="highestPay" class="ma__helper-text">
-                        Estimated average of your highest thirty-six consecutive months of annual regular compensation.
-                    </label>
                 </fieldset>
 
                 <fieldset>
@@ -169,13 +149,8 @@
                            id="yearsWorked"
                            ng-model="form.yearsWorked"/>
                 </fieldset>
-            </div>
-        </div>
-        <div class="animate-switch" ng-switch-when="step5">
-            <div class="ma__form-page">
                 <fieldset>
                     <label class="ma__label ma__label--required">Are you a military veteran?</label>
-                    <div class="ma__error-msg" ng-show="showError(counter)">{{showError(counter)}}</div>
                     <div class="ma__input-group__items ma__input-group__items--inline">
                         <div class="ma__input-group__item">
                         <span class="ma__input-radio">
@@ -197,33 +172,6 @@
                 </fieldset>
             </div>
         </div>
-        <div class="animate-switch" ng-switch-when="step6">
-            <div class="ma__form-page">
-                <fieldset>
-                    <label for="beneBirthDate" class="ma__label ma__label--required">Beneficiary Date of Birth</label>
-                    <input id="beneBirthDate"
-                           class="ma__input-date"
-                           moment-picker="form.beneBirthDate"
-                           type="text"
-                           format="DD/MM/YYYY"
-                           max-view="month"
-                           start-view="decade"
-                           min-date="''"
-                           max-date="''"
-                           set-on-select="true"
-                           placeholder="Choose a date..."
-                           ng-model="form.beneBirthDate">
-                    </input>
-                    <div class="clear"></div>
-                    <label class="ma__helper-text">
-                        If you are interested in estimating your benefits under Option C, enter your beneficiary's age
-                        on the birthdays that are closest to your date of retirement.
-                        <br/><strong>Reminder: Your Option C beneficiary must be your spouse, child, sibling, parent or
-                        former spouse who has not remarried.</strong>
-                    </label>
-                </fieldset>
-            </div>
-        </div>
         <div class="animate-switch" ng-switch-when="results">
             <!--<div class="alert alert-success" role="alert">-->
             <!--<h4 class="alert-heading">Calculation Results</h4>-->
@@ -233,14 +181,14 @@
             <div class="row">
                 <div class="col-sm-4">
                     <h2>Option A - No Survivor Benefit</h2>
-                    <h3>${{ results.optionA.annualPension }} Annualy</h3>
+                    <h3>${{ results.optionA.annualPension.toFixed(0) }} Annually</h3>
                     <p>Option A will provide you with your full retirement allowance in monthly
                         payments as long as you live. However, all allowance payments stop when
                         you die and no benefits are provided to survivors.</p>
                 </div>
                 <div class="col-sm-4">
                     <h2>Option B - Protects Your Annuity</h2>
-                    <h3>${{ results.optionB.annualPension }} Annualy</h3>
+                    <h3>${{ results.optionB.annualPension.toFixed(0) }} Annually</h3>
                     <p>Option B provides a lifetime allowance to you that is approximately 1% to
                         5% less per month than Option A.* The annuity portion of your allowance
                         is reduced to allow a benefit for your beneficiary. Upon your death, your
@@ -248,42 +196,23 @@
                         or persons appearing in the judgment of the State Retirement Board to be
                         entitled, will be paid the remaining balance of your accumulated total deduc-
                         tions from your annuity reserve account.</p>
-                    <p>During your retirement, the balance in your annuity savings account de-
-                        creases by an amount equal to the annuity portion of your pension. In most
-                        cases, your annuity savings account will be depleted after 15 years. Upon your
-                        death, the balance remaining in your account will be paid in a lump sum to
-                        your beneficiary or your estate. If your annuity savings account is depleted
-                        while you are receiving your allowance, you will continue to receive your full
-                        Option B pension for life; but your beneficiary will not receive any payment
-                        upon your death.</p>
-                    <p>You may choose more than one person as your Option B beneficiary and this
-                        beneficiary does not need to be related to you. You may change your Option B
-                        beneficiary at any time, even after you retire.</p>
                 </div>
                 <div class="col-sm-4">
                     <h2>Option C - Joint Survivor Allowance</h2>
-                    <h3>{{ results.optionC.annualPension ? "N/A" : "$"+results.optionC.annualPension+" Annually"}} </h3>
+                    <h3>{{ results.optionC.annualPension.toFixed(0) ? "$"+results.optionC.annualPension.toFixed(0)+" Annually" : "N/A"}} </h3>
                     <p>Option C, also known as the joint and last survivor allowance, provides you
                         with a lifetime allowance approximately 7-15% less than that which you would
                         receive under Option A. However, this reduction could be greater depending
                         on the age difference between you and your beneficiary. Upon your death, your
                         designated beneficiary will be paid a monthly allowance for the remainder of
-                        his or her life. The survivor benefit will be equal to two-thirds of the allowance
-                        that was being paid to you at the time of your death.</p>
-                    <p>Your monthly allowance received under Option C depends upon life expectancy
-                        factors for you and your designated beneficiary. Eligible beneficiaries under</p>
-                    <p>The Option C factor used for calculating your retirement benefit is based on
-                        the nearest birthday of the retiree and the beneficiary. For example: for a retiring
-                        member who is 58 years and 8 months old, and beneficiary who is 57 years
-                        and 2 months old, the factor used would be age 59 for the retiring member and
-                        age 57 for the beneficiary.</p>
-                    <p>Special circumstances concerning Option C: If you choose Option C and your
-                        beneficiary predeceases you, you cannot name a different Option C beneficiary.
-                        However, your monthly benefit will “pop up” to the Option A benefit amount
-                        that you would have received on the date of your retirement, plus any cost-of-
-                        living adjustments. The new, higher amount is then paid to you as of the date
-                        of the death of your beneficiary and until you die.</p>
+                        his or her life. </p>
                 </div>
+            </div>
+            <div class="row">
+              <div class="text-center">
+                For more information on these options, visit page 18 of
+                <a target="_blank" href="http://www.mass.gov/treasury/docs/retirement/retguide2015.pdf">this</a> document.
+              </div>
             </div>
 
         </div>
@@ -297,6 +226,7 @@
     </div>
 
     <fieldset ng-show="counter > 0">
+        <input type="submit" name="next" ng-click="forward()" style="display: none;" />
         <button ng-show="counter >= 1"
                 ng-click="backward()"
                 class="ma__button ma__button--minor ma__button--small">
@@ -310,7 +240,7 @@
         <button ng-show="counter == max"
                 ng-click=""
                 class="ma__button ma__button--small">
-            Recalculate
+            Start Over
         </button>
         <button ng-show="counter == max"
             ng-click="createCalculation()"
