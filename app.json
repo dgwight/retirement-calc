@@ -1,18 +1,16 @@
 {
-    "name": "Pension Calculator",
-    "description": "...",
-    "repository": "https://github.com/dgwight/retirement-calc",
-    "keywords": ["node", "express"],
-    "addons" : [
-        "mongolab",
-        {
-          "plan": "mongolab:sandbox",
-          "as": "MONGODB"
-        },
-        "papertrail",
-        {
-          "plan": "papertrail:choklad",
-          "as": "PAPERTRAIL"
-        }
-    ]
+  "name": "Pension Calculator",
+  "description": "...",
+  "repository": "https://github.com/dgwight/retirement-calc",
+  "keywords": ["node", "express"],
+  "addons" : [
+      {
+        "plan": "mongolab:sandbox",
+        "as": "MONGODB"
+      },
+      {
+        "plan": "papertrail:choklad",
+        "as": "PAPERTRAIL"
+      }
+  ]
 }
